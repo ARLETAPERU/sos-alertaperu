@@ -15,15 +15,15 @@ header.navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.7rem 2rem;
-    background: linear-gradient(to bottom, #b71c1c 60%, #ffffff00);
+    padding: 0.8rem 2rem;
+    background: linear-gradient(to right, #e53935 60%, #ffffff00);
     position: sticky;
     top: 0;
     z-index: 1000;
     transition: all 0.3s ease;
 }
 .logo img {
-    height: 40px;
+    height: 60px;
 }
 nav ul {
     display: flex;
@@ -54,7 +54,7 @@ nav ul li a:hover {
 }
 .btn {
     padding: 0.7rem 1.5rem;
-    background: #b71c1c;
+    background: #e53935;
     color: white;
     border: none;
     border-radius: 25px;
@@ -64,7 +64,7 @@ nav ul li a:hover {
     text-decoration: none;
 }
 .btn:hover {
-    background: #d32f2f;
+    background: #c62828;
 }
 .content-section, .cards-section, .testimonios-section, .contact-section {
     padding: 3rem 2rem;
@@ -98,12 +98,12 @@ section.visible {
 .testimonios-section blockquote {
     background: #f0f0f0;
     padding: 1rem;
-    border-left: 5px solid #b71c1c;
+    border-left: 5px solid #e53935;
     margin: 1rem 0;
     font-style: italic;
 }
 .contact-section a {
-    color: #b71c1c;
+    color: #e53935;
     font-weight: bold;
     text-decoration: none;
 }
@@ -116,7 +116,7 @@ footer {
 @media (max-width: 768px) {
     nav ul {
         flex-direction: column;
-        background: #b71c1c;
+        background: #e53935;
         position: absolute;
         top: 60px;
         left: 0;
