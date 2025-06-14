@@ -1,90 +1,79 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SOS AlertaPerú</title>
-  <link rel="stylesheet" href="css/estilos.css" />
-  <script src="js/scripts.js" defer></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#e53935',
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body>
-  <header class="navbar">
-    <div class="logo"><img src="logo.svg" alt="SOS AlertaPerú" /></div>
-    <nav>
-      <ul>
-        <li><a href="#inicio">Inicio</a></li>
-        <li><a href="#quienes">Quiénes Somos</a></li>
-        <li><a href="#servicios">Servicios</a></li>
-        <li><a href="#proyectos">Proyectos</a></li>
-        <li><a href="#verificacion">Verificación</a></li>
-        <li><a href="#testimonios">Testimonios</a></li>
-        <li><a href="#contacto">Contacto</a></li>
-      </ul>
+<body class="text-gray-800">
+
+<!-- Header -->
+<header class="fixed top-0 w-full bg-primary text-white z-50 shadow-md">
+  <div class="container mx-auto flex justify-between items-center px-4 py-4">
+    <div class="flex items-center gap-2">
+      <img src="logo.svg" alt="Logo SOS AlertaPerú" class="h-10">
+      <span class="text-lg font-bold">SOS AlertaPerú</span>
+    </div>
+    <nav class="hidden md:flex gap-6">
+      <a href="#inicio" class="hover:text-red-200 transition">Inicio</a>
+      <a href="#servicios" class="hover:text-red-200 transition">Servicios</a>
+      <a href="#nosotros" class="hover:text-red-200 transition">Nosotros</a>
+      <a href="#testimonios" class="hover:text-red-200 transition">Testimonios</a>
+      <a href="#contacto" class="hover:text-red-200 transition">Contacto</a>
     </nav>
-  </header>
+    <button id="menu-btn" class="md:hidden text-white focus:outline-none">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+  </div>
+  <div id="mobile-menu" class="hidden md:hidden bg-red-700 px-4 pb-4">
+    <a href="#inicio" class="block py-2 text-white">Inicio</a>
+    <a href="#servicios" class="block py-2 text-white">Servicios</a>
+    <a href="#nosotros" class="block py-2 text-white">Nosotros</a>
+    <a href="#testimonios" class="block py-2 text-white">Testimonios</a>
+    <a href="#contacto" class="block py-2 text-white">Contacto</a>
+  </div>
+</header>
 
-  <main>
-    <section id="inicio" class="hero">
-      <h1>SOS AlertaPerú</h1>
-      <p>Capacitando y salvando vidas en situaciones de emergencia</p>
-      <a href="#contacto" class="btn">Contáctanos</a>
-    </section>
-
-    <section id="quienes" class="content-section">
-      <h2>Quiénes Somos</h2>
-      <p>ONG de socorrismo enfocada en la atención a poblaciones vulnerables durante emergencias y desastres en Perú.</p>
-    </section>
-
-    <section id="servicios" class="cards-section">
-      <h2>Servicios y Capacitaciones</h2>
-      <div class="cards">
-        <div class="card">
-          <h3>Primeros Auxilios</h3>
-          <p>Capacitación certificada en respuesta inmediata.</p>
-        </div>
-        <div class="card">
-          <h3>Gestión de Desastres</h3>
-          <p>Formación para la preparación y atención de emergencias.</p>
-        </div>
-        <div class="card">
-          <h3>Simulacros</h3>
-          <p>Planificación y ejecución de simulacros en empresas y comunidades.</p>
-        </div>
+<main class="pt-24">
+  <!-- Hero -->
+  <section id="inicio" class="bg-primary text-white py-20 text-center">
+    <div class="container mx-auto px-4">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">Preparados para salvar vidas</h1>
+      <p class="text-lg max-w-xl mx-auto mb-6">Capacitando, respondiendo y protegiendo a comunidades en situaciones de emergencia en todo el Perú.</p>
+      <div class="flex justify-center gap-4 flex-wrap">
+        <a href="#contacto" class="bg-white text-primary font-semibold px-6 py-3 rounded-lg hover:bg-red-100 transition">Contáctanos</a>
+        <a href="#servicios" class="border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-primary transition font-semibold">Nuestros Servicios</a>
       </div>
-    </section>
+    </div>
+  </section>
+</main>
 
-    <section id="proyectos" class="content-section">
-      <h2>Proyectos e Impacto</h2>
-      <ul>
-        <li>✅ +12,000 personas capacitadas</li>
-        <li>✅ 97 pueblos intervenidos</li>
-        <li>✅ 3,280 vidas salvadas</li>
-      </ul>
-    </section>
+<!-- Footer -->
+<footer class="bg-gray-100 text-center text-sm text-gray-600 py-4">
+  © 2025 SOS AlertaPerú. Todos los derechos reservados.
+</footer>
 
-    <section id="verificacion" class="content-section">
-      <h2>Verifica tu Certificado</h2>
-      <input type="text" id="codigo-cert" placeholder="Ingresa el código de tu certificado" />
-      <button onclick="verificarCertificado()">Verificar</button>
-      <div id="resultado-verificacion"></div>
-    </section>
+<!-- Scripts -->
+<script>
+  document.getElementById('menu-btn').addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.toggle('hidden');
+  });
+</script>
 
-    <section id="testimonios" class="testimonios-section">
-      <h2>Testimonios</h2>
-      <blockquote>“Gracias a SOS AlertaPerú, aprendí a salvar vidas. Hoy ayudé a mi comunidad.” – Rosa L.</blockquote>
-      <blockquote>“Su curso de primeros auxilios fue práctico y útil. ¡Altamente recomendado!” – Carlos M.</blockquote>
-    </section>
-
-    <section id="contacto" class="contact-section">
-      <h2>Contacto</h2>
-      <p>Email: <a href="mailto:sosalertaperu.jefaturalimasur@gmail.com">sosalertaperu.jefaturalimasur@gmail.com</a></p>
-      <p>WhatsApp: <a href="https://wa.me/51950101324" target="_blank">+51 950 101 324</a></p>
-    </section>
-  </main>
-
-  <footer>
-    <p>© 2025 SOS AlertaPerú</p>
-  </footer>
 </body>
 </html>
