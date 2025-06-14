@@ -2,60 +2,89 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOS AlertaPerú</title>
-    <link rel="stylesheet" href="css/estilos.css">
-    <script src="js/scripts.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SOS AlertaPerú</title>
+  <link rel="stylesheet" href="css/estilos.css" />
+  <script src="js/scripts.js" defer></script>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <img src="logo.svg" alt="Logo SOS AlertaPerú" class="logo-img">
+  <header class="navbar">
+    <div class="logo"><img src="logo.svg" alt="SOS AlertaPerú" /></div>
+    <nav>
+      <ul>
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#quienes">Quiénes Somos</a></li>
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#proyectos">Proyectos</a></li>
+        <li><a href="#verificacion">Verificación</a></li>
+        <li><a href="#testimonios">Testimonios</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="inicio" class="hero">
+      <h1>SOS AlertaPerú</h1>
+      <p>Capacitando y salvando vidas en situaciones de emergencia</p>
+      <a href="#contacto" class="btn">Contáctanos</a>
+    </section>
+
+    <section id="quienes" class="content-section">
+      <h2>Quiénes Somos</h2>
+      <p>ONG de socorrismo enfocada en la atención a poblaciones vulnerables durante emergencias y desastres en Perú.</p>
+    </section>
+
+    <section id="servicios" class="cards-section">
+      <h2>Servicios y Capacitaciones</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Primeros Auxilios</h3>
+          <p>Capacitación certificada en respuesta inmediata.</p>
         </div>
-        <nav>
-            <ul>
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#quienes-somos">Quiénes Somos</a></li>
-                <li><a href="#servicios">Servicios</a></li>
-                <li><a href="#proyectos">Proyectos</a></li>
-                <li><a href="#verificacion">Verificación</a></li>
-                <li><a href="#contacto">Contacto</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section id="inicio">
-            <h1>Bienvenidos a SOS AlertaPerú</h1>
-            <img src="logo.svg" alt="Logo principal" style="width:150px;margin:1rem 0;">
-            <p>Intervención y capacitación para emergencias y desastres en el Perú.</p>
-        </section>
-        <section id="quienes-somos">
-            <h2>Quiénes Somos</h2>
-            <p>ONG dedicada al socorrismo, atención a personas vulnerables y formación en gestión de emergencias.</p>
-        </section>
-        <section id="servicios">
-            <h2>Capacitaciones y Servicios</h2>
-            <p>Primeros auxilios, gestión de riesgos, atención en desastres y más.</p>
-        </section>
-        <section id="proyectos">
-            <h2>Proyectos e Impacto</h2>
-            <p>Contadores de vidas salvadas, personas capacitadas, pueblos en riesgo. Información sísmica y estadísticas.</p>
-        </section>
-        <section id="verificacion">
-            <h2>Verificación de Certificados</h2>
-            <input type="text" id="codigo-cert" placeholder="Ingresa el código del certificado">
-            <button onclick="verificarCertificado()">Verificar</button>
-            <div id="resultado-verificacion"></div>
-        </section>
-        <section id="contacto">
-            <h2>Contacto</h2>
-            <p>Email: <a href="mailto:sosalertaperu.jefaturalimasur@gmail.com">sosalertaperu.jefaturalimasur@gmail.com</a></p>
-            <p>WhatsApp: <a href="https://wa.me/51950101324" target="_blank">+51 950 101 324</a></p>
-        </section>
-    </main>
-    <footer>
-        <p>© 2025 SOS AlertaPerú - Todos los derechos reservados.</p>
-    </footer>
+        <div class="card">
+          <h3>Gestión de Desastres</h3>
+          <p>Formación para la preparación y atención de emergencias.</p>
+        </div>
+        <div class="card">
+          <h3>Simulacros</h3>
+          <p>Planificación y ejecución de simulacros en empresas y comunidades.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="proyectos" class="content-section">
+      <h2>Proyectos e Impacto</h2>
+      <ul>
+        <li>✅ +12,000 personas capacitadas</li>
+        <li>✅ 97 pueblos intervenidos</li>
+        <li>✅ 3,280 vidas salvadas</li>
+      </ul>
+    </section>
+
+    <section id="verificacion" class="content-section">
+      <h2>Verifica tu Certificado</h2>
+      <input type="text" id="codigo-cert" placeholder="Ingresa el código de tu certificado" />
+      <button onclick="verificarCertificado()">Verificar</button>
+      <div id="resultado-verificacion"></div>
+    </section>
+
+    <section id="testimonios" class="testimonios-section">
+      <h2>Testimonios</h2>
+      <blockquote>“Gracias a SOS AlertaPerú, aprendí a salvar vidas. Hoy ayudé a mi comunidad.” – Rosa L.</blockquote>
+      <blockquote>“Su curso de primeros auxilios fue práctico y útil. ¡Altamente recomendado!” – Carlos M.</blockquote>
+    </section>
+
+    <section id="contacto" class="contact-section">
+      <h2>Contacto</h2>
+      <p>Email: <a href="mailto:sosalertaperu.jefaturalimasur@gmail.com">sosalertaperu.jefaturalimasur@gmail.com</a></p>
+      <p>WhatsApp: <a href="https://wa.me/51950101324" target="_blank">+51 950 101 324</a></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 SOS AlertaPerú</p>
+  </footer>
 </body>
 </html>
