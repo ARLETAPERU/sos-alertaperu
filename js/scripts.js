@@ -259,3 +259,76 @@ contactForm.addEventListener('submit', async (e) => {
         formStatus.className = 'status-message error-message'; // Clases para estilos
     }
 });
+
+
+// --- JavaScript para Efecto de Agua del Logo ---
+document.addEventListener('DOMContentLoaded', () => {
+    const canvas = document.getElementById('waterEffectCanvas');
+    const ctx = canvas.getContext('2d');
+    const logoImg = new Image();
+    logoImg.src = 'img/logo.png'; // Asegúrate de que esta ruta sea correcta
+    logoImg.onload = () => {
+        initCanvas();
+        window.addEventListener('resize', initCanvas); // Re-inicializar al redimensionar
+    };
+
+    let particles = [];
+    const PARTICLE_COUNT = 30; // Número de logos flotando
+
+    function initCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        particles = [];
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+            particles.push(new Particle());
+        }
+        draw();
+    }
+
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 50 + 20; // Tamaño del logo de 20 a 70 px
+            this.speedX = Math.random() * 0.5 - 0.25; // Velocidad de -0.25 a 0.25
+            this.speedY = Math.random() * 0.5 - 0.25;
+            this.opacity = Math.random() * 0.4 + 0.1; // Opacidad de 0.1 a 0.5 (sutil)
+            this.rotation = Math.random() * Math.PI * 2; // Rotación inicial
+            this.rotationSpeed = Math.random() * 0.005 - 0.0025; // Velocidad de rotación
+        }
+
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            this.rotation += this.rotationSpeed;
+
+            // Borde envolvente
+            if (this.x < -this.size) this.x = canvas.width + this.size;
+            if (this.y < -this.size) this.y = canvas.height + this.size;
+            if (this.x > canvas.width + this.size) this.x = -this.size;
+            if (this.y > canvas.height + this.size) this.y = -this.size;
+        }
+
+        draw() {
+            ctx.save();
+            ctx.globalAlpha = this.opacity;
+            ctx.translate(this.x + this.size / 2, this.y + this.size / 2);
+            ctx.rotate(this.rotation);
+            ctx.drawImage(logoImg, -this.size / 2, -this.size / 2, this.size, this.size);
+            ctx.restore();
+        }
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpia el canvas
+        // Opcional: un color de fondo para el canvas si el body no tiene uno sólido
+        // ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+        // ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach(particle => {
+            particle.update();
+            particle.draw();
+        });
+        requestAnimationFrame(draw);
+    }
+});
