@@ -1,129 +1,607 @@
+/* Estilos generales */
+:root {
+    --color-primary: #E53935; /* Rojo vibrante */
+    --color-secondary: #FFFFFF; /* Blanco */
+    --color-dark: #333333; /* Gris oscuro para texto */
+    --color-light-grey: #f4f4f4; /* Gris claro para fondos */
+    --color-accent: #FFC107; /* Amarillo para detalles */
+}
 
-* {
+body {
+    font-family: 'Open Sans', sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    scroll-behavior: smooth;
-}
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #fff;
-    color: #333;
+    color: var(--color-dark);
     line-height: 1.6;
 }
-header.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.8rem 2rem;
-    background: linear-gradient(to right, #e53935 60%, #ffffff00);
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+h1, h2, h3 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--color-dark);
+    margin-bottom: 15px;
+}
+
+h1 { font-size: 2.8em; }
+h2 { font-size: 2.2em; }
+h3 { font-size: 1.8em; }
+
+p {
+    margin-bottom: 15px;
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.btn {
+    display: inline-block;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    padding: 12px 25px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #C62828; /* Rojo más oscuro */
+    text-decoration: none;
+}
+
+.btn-secondary {
+    background-color: var(--color-dark);
+    color: var(--color-secondary);
+}
+
+.btn-secondary:hover {
+    background-color: #555555;
+}
+
+/* Cursor personalizado (ocho de rescate SVG) */
+body {
+    cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDBDNi40OCAwIDIgNC40OCAyIDEwQzIgMTYuNjIgNi40OCAyMCAxMiAyMEMxNy41MiAyMCAyMiAxNi42MiAyMiAxMEMyMiA0LjQ4IDE3LjUyIDAgMTIgMFpNMTIgMThDNy41OCAxOCA0IDE0LjQyIDQgMTBDRiA1LjU4IDcuNTggMiAxMiAyQzE2LjQyIDIgMjAgNS41OCAyMCAxMEMyMCAxNC40MiAxNi40MiAxOCAxMiAxOFpNMTIgNFYxNCIiIGZpbGw9IiNFNTM5MzUiLz4KPHBhdGg+Cg==') 6 6, auto; /* 6 6 son el hot-spot (punto activo) */
+}
+
+/* Estilos del encabezado */
+header {
+    background-color: var(--color-dark);
+    color: var(--color-secondary);
+    padding: 10px 0;
     position: sticky;
     top: 0;
     z-index: 1000;
-    transition: all 0.3s ease;
 }
-.logo img {
-    height: 60px;
-}
-nav ul {
+
+header .container {
     display: flex;
-    list-style: none;
-    gap: 1.2rem;
+    justify-content: space-between;
+    align-items: center;
 }
+
+.logo-container { /* Contenedor para el logo */
+    display: flex;
+    align-items: center;
+}
+
+.logo-container img {
+    height: 50px; /* Ajusta el tamaño del logo en el header */
+    width: auto;
+}
+
+/* Oculta el texto si el logo es una imagen completa, como se asume ahora */
+.logo-text {
+    display: none;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
 nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
+    color: var(--color-secondary);
+    font-weight: 600;
     transition: color 0.3s ease;
 }
+
 nav ul li a:hover {
-    color: #ffcccb;
-}
-.hero {
-    background: #fff;
-    text-align: center;
-    padding: 4rem 1rem 3rem;
-}
-.hero h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-}
-.hero p {
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
-}
-.btn {
-    padding: 0.7rem 1.5rem;
-    background: #e53935;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s ease;
+    color: var(--color-primary);
     text-decoration: none;
 }
-.btn:hover {
-    background: #c62828;
+
+/* Hero Section (Inicio) */
+#hero {
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://via.placeholder.com/1920x800.png?text=Imagen+Hero+Emergencias') no-repeat center center/cover;
+    color: var(--color-secondary);
+    text-align: center;
+    padding: 150px 0;
 }
-.content-section, .cards-section, .testimonios-section, .contact-section {
-    padding: 3rem 2rem;
-    max-width: 1000px;
-    margin: auto;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+
+#hero h1 {
+    color: var(--color-secondary);
+    font-size: 3.5em;
+    margin-bottom: 20px;
 }
-section.visible {
-    opacity: 1;
-    transform: translateY(0);
+
+#hero p {
+    font-size: 1.3em;
+    margin-bottom: 30px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
-.cards {
+
+.hero-buttons .btn {
+    margin: 0 10px;
+}
+
+/* About Us (Quiénes Somos) */
+#about {
+    background-color: var(--color-secondary);
+    padding: 80px 0;
+    text-align: center;
+}
+
+#about .about-content {
     display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-top: 40px;
+    text-align: left;
 }
-.card {
-    background: #fafafa;
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    flex: 1 1 250px;
+
+#about .about-text {
+    flex: 2;
+}
+
+#about .about-image {
+    flex: 1;
+    text-align: center;
+}
+
+#about .about-image .logo-circle {
+    width: 250px;
+    height: 250px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    overflow: hidden; /* Asegura que la imagen no se desborde del círculo */
+}
+
+#about .about-image .logo-circle img {
+    height: 100%; /* Ajusta la altura al 100% del círculo */
+    width: 100%; /* Ajusta el ancho al 100% del círculo */
+    object-fit: contain; /* Asegura que la imagen se ajuste dentro del círculo sin cortarse */
+    padding: 20px; /* Un poco de padding para que no quede pegado al borde del círculo */
+}
+
+
+/* Services (Servicios/Capacitaciones) */
+#services {
+    background-color: var(--color-light-grey);
+    padding: 80px 0;
+    text-align: center;
+}
+
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.service-item {
+    background-color: var(--color-secondary);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: left;
     transition: transform 0.3s ease;
 }
-.card:hover {
-    transform: translateY(-5px);
+
+.service-item:hover {
+    transform: translateY(-10px);
 }
-.testimonios-section blockquote {
-    background: #f0f0f0;
-    padding: 1rem;
-    border-left: 5px solid #e53935;
-    margin: 1rem 0;
-    font-style: italic;
+
+.service-item h3 {
+    color: var(--color-primary);
+    margin-top: 0;
 }
-.contact-section a {
-    color: #e53935;
-    font-weight: bold;
-    text-decoration: none;
-}
-footer {
+
+/* Projects (Proyectos) */
+#projects {
+    background-color: var(--color-secondary);
+    padding: 80px 0;
     text-align: center;
-    background: #eee;
-    padding: 1rem;
-    font-size: 0.9rem;
 }
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.project-item {
+    background-color: var(--color-light-grey);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: left;
+}
+
+.project-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.project-info {
+    padding: 20px;
+}
+
+.project-info h3 {
+    color: var(--color-dark);
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.project-info p {
+    font-size: 0.9em;
+    color: #666;
+}
+
+/* Convenios (Partnerships) */
+#partnerships {
+    background-color: var(--color-light-grey);
+    padding: 80px 0;
+    text-align: center;
+}
+
+.partnership-logos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 40px;
+}
+
+.partnership-logos img {
+    max-height: 80px;
+    width: auto;
+    filter: grayscale(100%);
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.partnership-logos img:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+/* Certificados (Validation System) */
+#certificates {
+    background-color: var(--color-secondary);
+    padding: 80px 0;
+    text-align: center;
+}
+
+#certificates .certificate-section {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+#certificates .verification-form,
+#certificates .admin-panel {
+    background-color: var(--color-light-grey);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    max-width: 500px;
+    text-align: left;
+}
+
+#certificates .admin-panel {
+    min-width: 400px; /* Asegurar que tenga un tamaño decente */
+}
+
+#certificates input[type="text"],
+#certificates input[type="password"],
+#certificates input[type="date"],
+#certificates select {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#certificates .form-group {
+    margin-bottom: 15px;
+}
+
+#certificates button {
+    width: auto;
+    padding: 10px 20px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+#certificate-result, #admin-output {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #e9e9e9;
+    white-space: pre-wrap; /* Para QR code */
+    word-break: break-word; /* Para QR code */
+}
+
+#admin-actions {
+    margin-top: 20px;
+}
+
+#issued-certificates-list {
+    list-style: none;
+    padding: 0;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+#issued-certificates-list li {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#issued-certificates-list li:last-child {
+    border-bottom: none;
+}
+
+#issued-certificates-list button {
+    padding: 5px 10px;
+    font-size: 0.8em;
+}
+
+/* Sección de Sismos y Emergencias (Monitor) */
+#seismic-info { /* Nombre de la sección cambiada para información de sismo */
+    background-color: var(--color-dark);
+    color: var(--color-secondary);
+    padding: 80px 0;
+    text-align: center;
+}
+
+#seismic-info h2 { /* Título de la sección de info de sismo */
+    color: var(--color-secondary);
+}
+
+.seismic-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.seismic-card {
+    background-color: rgba(255,255,255,0.1);
+    padding: 25px;
+    border-radius: 8px;
+    text-align: left;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.seismic-card h3 {
+    color: var(--color-accent);
+    margin-top: 0;
+}
+
+.seismic-card p {
+    font-size: 0.95em;
+    margin-bottom: 5px;
+}
+
+.seismic-counters {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.seismic-counters .counter-item h3 {
+    font-size: 2.5em;
+    color: var(--color-primary);
+}
+
+#seismic-monitor { /* Esta es la sección del monitor en tiempo real */
+    background-color: var(--color-light-grey);
+    padding: 80px 0;
+    text-align: center;
+}
+
+/* Contact Section */
+#contact {
+    background-color: var(--color-light-grey);
+    padding: 80px 0;
+    text-align: center;
+}
+
+#contact .contact-content {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+#contact .contact-form,
+#contact .contact-info {
+    background-color: var(--color-secondary);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    max-width: 500px;
+    text-align: left;
+}
+
+#contact .contact-info {
+    min-width: 300px;
+}
+
+#contact input[type="text"],
+#contact input[type="email"],
+#contact textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#contact textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+#contact .contact-info p {
+    margin-bottom: 10px;
+}
+
+#contact .contact-info i {
+    margin-right: 10px;
+    color: var(--color-primary);
+}
+
+/* Footer */
+footer {
+    background-color: var(--color-dark);
+    color: var(--color-secondary);
+    text-align: center;
+    padding: 40px 0;
+}
+
+footer .footer-nav ul {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+footer .footer-nav ul li {
+    margin: 0 15px;
+}
+
+footer .footer-nav ul li a {
+    color: var(--color-secondary);
+    font-weight: 400;
+}
+
+footer .footer-nav ul li a:hover {
+    color: var(--color-primary);
+}
+
+footer .social-icons a {
+    color: var(--color-secondary);
+    font-size: 1.5em;
+    margin: 0 10px;
+    transition: color 0.3s ease;
+}
+
+footer .social-icons a:hover {
+    color: var(--color-primary);
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-    nav ul {
+    header .container {
         flex-direction: column;
-        background: #e53935;
-        position: absolute;
-        top: 60px;
-        left: 0;
-        right: 0;
-        display: none;
     }
-    nav ul.open {
-        display: flex;
+
+    nav ul {
+        margin-top: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    nav ul li {
+        margin: 5px 10px;
+    }
+
+    #hero h1 {
+        font-size: 2.5em;
+    }
+
+    #hero p {
+        font-size: 1.1em;
+    }
+
+    #about .about-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    #about .about-image {
+        margin-top: 30px;
+    }
+
+    .service-grid, .project-grid, .seismic-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #certificates .certificate-section,
+    #contact .contact-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #certificates .admin-panel,
+    #certificates .verification-form,
+    #contact .contact-form,
+    #contact .contact-info {
+        max-width: 90%;
+    }
+
+    .logo-container img {
+        height: 40px; /* Ajusta el tamaño del logo en móviles */
+    }
+
+    #about .about-image .logo-circle {
+        width: 200px;
+        height: 200px;
     }
 }
