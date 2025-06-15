@@ -7,6 +7,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIINfQRevh4N+FZDFyRLAOKsEMrNA7dHL5c="
+        crossorigin=""/>
+
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="img/favicon.ico" type="image/x-icon">
 </head>
@@ -134,20 +139,9 @@
         <section id="seismic-info" class="section-padding section-light-grey">
             <div class="container">
                 <h2 class="text-center">Monitor Sísmico y Alertas</h2>
-                <p class="text-center">Mantente informado sobre los sismos recientes y alertas de emergencia.</p>
-                <div class="seismic-grid">
-                    <div class="earthquake-list-container">
-                        <h3>Últimos Sismos en Perú y Cercanías (2.5+)</h3>
-                        <div id="peru-earthquakes" class="earthquake-list">
-                            <p>Cargando datos de sismos...</p>
-                        </div>
-                    </div>
-                    <div class="earthquake-list-container">
-                        <h3>Últimos Sismos Globales (2.5+)</h3>
-                        <div id="global-earthquakes" class="earthquake-list">
-                            <p>Cargando datos de sismos...</p>
-                        </div>
-                    </div>
+                <p class="text-center">Visualiza los sismos recientes y alertas de emergencia en tiempo real.</p>
+                <div class="seismic-content-wrapper"> <div id="earthquake-map" style="height: 500px; width: 100%;"></div> 
+                    
                     <div class="alerts-container">
                         <h3>Alertas de Emergencia Perú</h3>
                         <div id="peru-alerts" class="alerts-list">
@@ -312,6 +306,10 @@
             </div>
         </div>
     </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nEFh3L_2d2c1F+82T5cQ2Vj5b8b/2s+kP+c02s/2Q="
+        crossorigin=""></script>
 
     <script src="js/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
