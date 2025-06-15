@@ -1,8 +1,8 @@
 // --- JavaScript para Sistema de Verificación de Certificados ---
 // !!! ADVERTENCIA: Para producción, NO ALMACENAR CREDENCIALES EN EL CLIENTE.
 // Se necesitaría un backend para autenticación segura.
-var ADMIN_USER = 'admin';
-var ADMIN_PASS = 'admin123';
+var ADMIN_USER = 'Jonnazz28'; // ¡Usuario Actualizado!
+var ADMIN_PASS = 'Jonnazz28..*'; // ¡Contraseña Actualizada!
 
 let certificates = JSON.parse(localStorage.getItem('sosCertificates')) || [];
 let loggedIn = false;
