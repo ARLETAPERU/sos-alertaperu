@@ -5,12 +5,12 @@ let earthquakeMap = null; // Variable para almacenar la instancia del mapa
 
 // Función para inicializar el mapa
 function initMap() {
-    // Si el mapa ya existe, lo eliminamos para evitar duplicados al recargar
-    if (earthquakeMap !== null) {
+    // Solo intentar eliminar el mapa si ya existe y no es null
+    if (earthquakeMap && earthquakeMap instanceof L.Map) { // Añadido check para instanceof L.Map
         earthquakeMap.remove(); 
     }
+    
     // Coordenadas iniciales (centro de Perú) y zoom inicial
-    // Hemos ajustado el zoom a 3 para que se vean más sismos globales al principio
     earthquakeMap = L.map('earthquake-map').setView([-9.19, -75.015], 3); // Latitud, Longitud, Zoom
 
     // Proveedor de tiles: CartoDB Voyager (más robusto para HTTPS)
@@ -29,6 +29,16 @@ async function fetchEarthquakes(url, isPeru = false) {
     const prevMessage = mapContainer.querySelector('.map-error-message');
     if (prevMessage) prevMessage.remove();
 
+    // Asegurarse de que el mapa esté inicializado antes de intentar usarlo
+    if (!earthquakeMap || !(earthquakeMap instanceof L.Map)) {
+        console.error("El mapa no está inicializado. No se pueden añadir marcadores.");
+        const errorMessage = document.createElement('p');
+        errorMessage.className = 'map-error-message';
+        errorMessage.textContent = 'Error interno: El mapa no se ha cargado correctamente. Intenta recargar la página.';
+        mapContainer.appendChild(errorMessage);
+        return; // Salir de la función si el mapa no está listo
+    }
+
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -37,6 +47,7 @@ async function fetchEarthquakes(url, isPeru = false) {
         const data = await response.json();
         
         // Limpiar marcadores anteriores del mapa (si hay alguno de una carga previa)
+        // Solo si el mapa está listo
         earthquakeMap.eachLayer(function(layer) {
             if (layer instanceof L.Marker) {
                 earthquakeMap.removeLayer(layer);
@@ -51,7 +62,6 @@ async function fetchEarthquakes(url, isPeru = false) {
                     const lat = quake.geometry.coordinates[1];
                     const lon = quake.geometry.coordinates[0];
                     // Rango aproximado para la región andina central de Sudamérica
-                    // Estos límites pueden necesitar ajuste fino. Ampliados ligeramente.
                     const inPeruRegion = (lat >= -25 && lat <= 5 && lon >= -88 && lon <= -60);
                     return placeLower.includes('peru') || placeLower.includes('chile') || 
                            placeLower.includes('ecuador') || placeLower.includes('bolivia') || 
@@ -61,7 +71,7 @@ async function fetchEarthquakes(url, isPeru = false) {
                 return true; // Si no es filtro de Perú, incluye todos
             }).slice(0, 100); // Limitar la cantidad de sismos a mostrar en el mapa (ajusta si quieres más o menos)
 
-            if (relevantEarthquakes.length === 0) { // Quité `&& isPeru` aquí para que muestre el mensaje si el filtro devuelve 0
+            if (relevantEarthquakes.length === 0) {
                 console.log("No se encontraron sismos recientes relevantes para el criterio de búsqueda.");
                 const noDataMessage = document.createElement('p');
                 noDataMessage.className = 'map-error-message';
@@ -70,13 +80,13 @@ async function fetchEarthquakes(url, isPeru = false) {
             }
 
             relevantEarthquakes.forEach(quake => {
-                const mag = quake.properties.mag; // No se hace toFixed(1) aquí, se hace en el popup
+                const mag = quake.properties.mag; 
                 const place = quake.properties.place;
                 const time = new Date(quake.properties.time).toLocaleString('es-PE', {
                     year: 'numeric', month: 'numeric', day: 'numeric',
                     hour: '2-digit', minute: '2-digit', second: '2-digit'
                 });
-                const depth = quake.geometry.coordinates[2]; // Profundidad en km
+                const depth = quake.geometry.coordinates[2]; 
                 const lat = quake.geometry.coordinates[1];
                 const lon = quake.geometry.coordinates[0];
 
@@ -126,10 +136,11 @@ async function fetchEarthquakes(url, isPeru = false) {
         console.error(`Error al cargar datos de sismos desde ${url}:`, error);
         const errorMessage = document.createElement('p');
         errorMessage.className = 'map-error-message';
+        // Ajustado el mensaje de error para ser más genérico si el fetch fue exitoso (200 OK)
         if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError') || error.message.includes('ERR_NAME_NOT_RESOLVED')) {
             errorMessage.textContent = 'Error de conexión: No se pudieron cargar los datos sísmicos. Verifica tu conexión a internet.';
         } else {
-            errorMessage.textContent = 'Error al procesar los datos de sismos. Inténtalo de nuevo más tarde.';
+            errorMessage.textContent = 'Error al procesar los datos de sismos. Inténtalo de nuevo más tarde o verifica la consola para más detalles.';
         }
         mapContainer.appendChild(errorMessage);
     }
@@ -141,8 +152,8 @@ function loadRealTimeSeismicData() {
 
     // Fuente de datos del USGS (últimos sismos de magnitud 2.5+ en el día)
     const globalUrl = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson';
-    // *** CAMBIO CLAVE: Cambiado a FALSE para ver sismos globales primero ***
-    fetchEarthquakes(globalUrl, false); // FALSE para NO filtrar por Perú, mostrar TODOS los sismos globales
+    // *** CLAVE: Usamos FALSE para ver sismos globales primero, si aparecen, entonces el filtro de Perú es el problema. ***
+    fetchEarthquakes(globalUrl, false); 
 
     // Alertas de Emergencia Perú (Manual por ahora, como ya lo tenías)
     const peruAlertsDiv = document.getElementById('peru-alerts');
