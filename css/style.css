@@ -1,153 +1,42 @@
-/* Variables CSS para colores */
+/* Estilos Generales */
 :root {
-    --color-primary: #E53935; /* Rojo vibrante */
-    --color-secondary: #FFFFFF; /* Blanco */
-    --color-dark: #2c3e50;    /* Azul oscuro casi negro para texto/fondo */
-    --color-light-grey: #f8f8f8; /* Gris muy claro para fondos de sección */
-    --color-medium-grey: #ecf0f1; /* Gris medio para bordes/sombras sutiles */
-    --color-accent: #f1c40f; /* Amarillo para detalles y énfasis */
+    --color-primary: #FF4500; /* Naranja rojizo */
+    --color-secondary: #007BFF; /* Azul brillante */
+    --color-dark: #333;
+    --color-light: #f4f4f4;
+    --color-grey: #666;
+    --color-light-grey: #e9ecef;
+    --font-heading: 'Montserrat', sans-serif;
+    --font-body: 'Open Sans', sans-serif;
 }
 
-/* Estilos globales y reset básicos */
-body {
-    font-family: 'Open Sans', sans-serif;
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    color: var(--color-dark);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
     line-height: 1.6;
-    background-color: var(--color-secondary); /* Fondo general blanco */
-    overflow-x: hidden; /* Evita scroll horizontal por si acaso */
+    color: var(--color-dark);
+    background-color: white; /* Fondo blanco por defecto */
 }
 
-*, *::before, *::after {
-    box-sizing: inherit;
-}
-
-/* Contenedor central */
 .container {
     width: 90%;
     max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px 0; /* Más padding para secciones */
-    position: relative; /* Para que el contenido esté sobre el canvas */
-    z-index: 2; /* Asegura que el contenido esté por encima del canvas */
+    margin: auto;
+    overflow: hidden;
+    padding: 20px 0;
 }
 
-/* Tipografía general */
-h1, h2, h3 {
-    font-family: 'Montserrat', sans-serif;
-    color: var(--color-dark);
-    margin-bottom: 25px; /* Más espacio */
-    text-align: center;
-}
-
-h1 { font-size: 3em; color: var(--color-secondary); } /* Título hero */
-h2 { font-size: 2.5em; position: relative; padding-bottom: 10px;}
-h2::after { /* Subrayado sutil para títulos de sección */
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 4px;
-    background-color: var(--color-primary);
-    border-radius: 2px;
-}
-h3 { font-size: 1.8em; }
-
-p {
-    margin-bottom: 20px;
-}
-
-a {
-    color: var(--color-primary);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-a:hover {
-    color: #C62828; /* Rojo más oscuro */
-    text-decoration: underline;
-}
-
-/* Botones */
-.btn {
-    display: inline-block;
-    background-color: var(--color-primary);
-    color: var(--color-secondary);
-    padding: 14px 30px; /* Más grandes */
-    border-radius: 8px; /* Bordes más suaves */
-    text-transform: uppercase;
-    font-weight: 700; /* Más negrita */
-    letter-spacing: 0.5px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.btn:hover {
-    background-color: #C62828;
-    transform: translateY(-2px); /* Efecto ligero de elevación */
-    text-decoration: none;
-}
-
-.btn-secondary {
-    background-color: var(--color-dark);
-    color: var(--color-secondary);
-}
-
-.btn-secondary:hover {
-    background-color: #34495e; /* Azul oscuro más claro */
-}
-
-/* Mensajes de estado y errores */
-.status-message {
-    margin-top: 15px;
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-size: 0.9em;
-    font-weight: 600;
-}
-
-.error-message {
-    color: var(--color-primary);
-}
-
-.success-message {
-    color: green;
-}
-
-.small-text {
-    font-size: 0.85em;
-    color: #666;
-    margin-top: 15px;
-}
-
-/* Cursor personalizado (ocho de rescate SVG en base64) */
-body {
-    /* SVG de un ocho de rescate simple y estilizado */
-    cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDNy4wMyAyIDMgNy4wMyAzIDEyQzMgMTYuOTcgNy4wMyAyMiAxMiAyMkMxNi45NyAyMiAyMSAxNi45NyAyMSAxMkMyMSAyMC41IDE2Ljk3IDMgMTIgM0wxMiAyMCIgc3Ryb2tlPSIjRTVBMzM1IiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWNvb2luPSJyb3VuZCIvPgo8cGF0aCBkPSJNMTIgM1YyMSIgc3Ryb2tlPSIjRTVBMzM1IiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjwvZ3ZnPj') 12 12, auto; /* Ajusta el hotspot */
-}
-
-/* Canvas para el efecto de agua */
-#waterEffectCanvas {
-    position: fixed; /* Ocupa toda la ventana */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1; /* Estará detrás de todo el contenido */
-    pointer-events: none; /* No interfiere con clics o interacciones */
-}
-
-/* Espaciado de secciones */
 .section-padding {
     padding: 80px 0;
-    position: relative; /* Para que el contenido de la sección esté sobre el canvas */
-    z-index: 2;
 }
 
 .section-light-grey {
@@ -156,736 +45,768 @@ body {
 
 .section-dark {
     background-color: var(--color-dark);
-    color: var(--color-secondary);
-}
-.section-dark h2, .section-dark h3 {
-    color: var(--color-secondary);
-}
-.section-dark p {
-    color: #bdc3c7; /* Texto más claro en fondo oscuro */
+    color: white;
 }
 
-/* Encabezado */
+.text-center {
+    text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    margin-bottom: 20px;
+    color: var(--color-dark); /* Color por defecto para títulos */
+}
+
+.section-dark h1, .section-dark h2, .section-dark h3, .section-dark h4 {
+    color: white; /* Títulos blancos en secciones oscuras */
+}
+
+h1 {
+    font-size: 3.5em;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 2.8em;
+    font-weight: 700;
+    margin-bottom: 40px;
+}
+
+h3 {
+    font-size: 2em;
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+p {
+    margin-bottom: 20px;
+}
+
+.btn {
+    display: inline-block;
+    background-color: var(--color-primary);
+    color: white;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn:hover {
+    background-color: #e63900;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: var(--color-secondary);
+    margin-left: 15px;
+}
+
+.btn-secondary:hover {
+    background-color: #0069d9;
+}
+
+.btn-whatsapp {
+    background-color: #25D366;
+    margin-top: 15px;
+}
+
+.btn-whatsapp:hover {
+    background-color: #1DA851;
+}
+
+.btn-admin-login {
+    background-color: var(--color-grey);
+    padding: 8px 15px;
+    font-size: 0.9em;
+    /* Ajustes específicos para que esté en la navegación */
+    margin-left: 25px; /* Espacio con el último elemento de la nav */
+    white-space: nowrap; /* Evita que el texto se rompa en varias líneas */
+}
+
+.btn-admin-login:hover {
+    background-color: #555;
+}
+
+/* Header */
 header {
-    background-color: var(--color-dark);
-    color: var(--color-secondary);
-    padding: 15px 0; /* Más padding */
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 0;
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 header .container {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Esto distribuye el logo a la izquierda y la nav a la derecha */
     align-items: center;
-    padding: 0; /* Elimina el padding del contenedor aquí para el header */
+    padding: 10px 0;
 }
 
-.logo-container {
-    display: flex;
-    align-items: center;
+header .logo-container img {
+    height: 60px; /* Tamaño del logo */
+    display: block; /* Para asegurar que no haya espacio extra debajo de la imagen */
 }
 
-.logo-container img {
-    height: 50px; /* Tamaño normal del logo en el header */
-    width: auto;
-    transition: transform 0.3s ease;
-}
-
-.logo-container img:hover {
-    transform: scale(1.05);
-}
-
-nav ul {
+header nav ul {
     list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
+    display: flex; /* Para que los ítems de la navegación estén en línea */
+    align-items: center; /* Centra verticalmente los ítems de la nav y el botón */
 }
 
-nav ul li {
-    margin-left: 30px; /* Más espacio entre ítems */
+header nav ul li {
+    display: inline; /* Asegura que cada ítem esté en línea */
+    margin-left: 25px; /* Espacio entre los ítems */
 }
 
-nav ul li a {
-    color: var(--color-secondary);
+header nav ul li a {
+    color: white;
+    text-decoration: none;
     font-weight: 600;
     transition: color 0.3s ease;
-    padding: 5px 0;
-    position: relative;
 }
 
-nav ul li a::after { /* Efecto de subrayado al pasar el mouse */
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -5px;
-    width: 0;
-    height: 2px;
-    background-color: var(--color-primary);
-    transition: width 0.3s ease-in-out;
-}
-
-nav ul li a:hover::after {
-    width: 100%;
-}
-
-nav ul li a:hover {
+header nav ul li a:hover {
     color: var(--color-primary);
-    text-decoration: none;
 }
 
-/* Sección Hero */
-#hero {
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://via.placeholder.com/1920x800.png?text=Imagen+Hero+Emergencias') no-repeat center center/cover;
-    color: var(--color-secondary);
+/* Hero Section */
+.hero-section {
+    background: url('../img/hero-bg.jpg') no-repeat center center/cover;
+    color: white;
     text-align: center;
-    padding: 180px 0; /* Más altura */
+    padding: 150px 0;
+    position: relative;
     display: flex;
-    flex-direction: column; /* Para centrar contenido y scroll indicator */
     align-items: center;
     justify-content: center;
-    min-height: 70vh; /* Altura mínima de la ventana */
-    position: relative; /* Para posicionar el indicador de scroll */
+    min-height: 100vh; /* Ocupa al menos toda la altura de la ventana */
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Superposición oscura */
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
     z-index: 2;
+    max-width: 800px;
 }
 
-#hero h1 {
-    font-size: 4em; /* Título más grande */
-    margin-bottom: 25px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-    line-height: 1.2;
+.hero-content h1 {
+    font-size: 4em;
+    margin-bottom: 20px;
+    color: white;
 }
 
-#hero p {
-    font-size: 1.4em;
+.hero-content p {
+    font-size: 1.3em;
     margin-bottom: 40px;
-    max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .hero-buttons .btn {
-    margin: 0 15px; /* Más espacio entre botones */
-}
-
-/* Indicador de scroll */
-.scroll-indicator {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--color-secondary);
     font-size: 1.1em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    animation: bounce 2s infinite;
+    padding: 15px 30px;
 }
 
-.scroll-indicator i {
-    font-size: 1.5em;
-    margin-top: 5px;
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    margin-top: 60px;
 }
 
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-    }
-    40% {
-        transform: translateY(-10px);
-    }
-    60% {
-        transform: translateY(-5px);
-    }
+.stat-item {
+    background-color: rgba(255, 255, 255, 0.15);
+    padding: 25px;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-/* Sección Quiénes Somos */
-#about .about-content {
-    display: flex;
-    align-items: center;
-    gap: 60px; /* Más espacio */
-    margin-top: 50px;
-    text-align: left;
+.stat-item .counter {
+    font-size: 2.5em;
+    font-weight: 700;
+    color: var(--color-primary);
+    display: block;
+    margin-bottom: 10px;
 }
 
-#about .about-text {
-    flex: 2;
-    padding-right: 20px;
+.stat-item p {
+    font-size: 1.1em;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
 }
 
-#about .about-image {
-    flex: 1;
+
+/* About Section */
+.about-content {
+    max-width: 800px;
+    margin: auto;
     text-align: center;
 }
 
-#about .about-image .logo-circle {
-    width: 280px; /* Círculo más grande */
-    height: 280px;
-    background-color: var(--color-primary);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2); /* Sombra más pronunciada */
-}
-
-#about .about-image .logo-circle img {
-    height: 100%;
-    width: 100%;
-    object-fit: contain;
-    padding: 25px; /* Padding para que el logo no toque el borde del círculo */
-}
-
-/* Sección Servicios */
-.service-grid {
+/* Services Section */
+.services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 35px; /* Más espacio */
-    margin-top: 50px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    text-align: center;
 }
 
 .service-item {
-    background-color: var(--color-secondary);
-    padding: 35px; /* Más padding */
-    border-radius: 10px; /* Bordes más suaves */
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-    text-align: left;
+    background-color: white;
+    padding: 40px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-top: 5px solid var(--color-primary); /* Borde superior de color primario */
 }
 
 .service-item:hover {
-    transform: translateY(-12px);
-    box-shadow: 0 12px 25px rgba(0,0,0,0.15); /* Sombra más intensa al pasar el mouse */
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.service-item i {
+    font-size: 3.5em;
+    color: var(--color-primary);
+    margin-bottom: 20px;
 }
 
 .service-item h3 {
-    color: var(--color-primary);
-    margin-top: 0;
+    font-size: 1.5em;
     margin-bottom: 15px;
-    font-size: 1.6em;
-    text-align: left; /* Título de servicio alineado a la izquierda */
 }
 
 .service-item p {
-    font-size: 1.0em;
-    color: #555;
+    color: var(--color-grey);
 }
 
-/* Sección Proyectos */
-.project-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 35px;
-    margin-top: 50px;
+/* Projects Section */
+.projects-slider {
+    position: relative;
+    max-width: 900px;
+    margin: 40px auto 20px auto;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
 }
 
 .project-item {
-    background-color: var(--color-secondary);
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-    text-align: left;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: none; /* Controlado por JS */
+    text-align: center;
 }
 
-.project-item:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 22px rgba(0,0,0,0.15);
+.project-item.active {
+    display: block;
 }
 
 .project-item img {
     width: 100%;
-    height: 220px; /* Imágenes un poco más grandes */
+    height: 400px;
     object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
-.project-info {
-    padding: 25px;
+.project-item h3 {
+    margin-top: 20px;
+    color: white;
 }
 
-.project-info h3 {
-    color: var(--color-dark);
-    margin-top: 0;
-    margin-bottom: 12px;
+.project-item p {
+    color: rgba(255, 255, 255, 0.8);
+    padding-bottom: 20px;
+}
+
+.slider-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
     font-size: 1.5em;
-    text-align: left;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
 }
 
-.project-info p {
-    font-size: 0.95em;
-    color: #666;
+.slider-nav:hover {
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
-/* Sección Info Sísmos */
-.seismic-info-grid {
+.prev-btn {
+    left: 10px;
+}
+
+.next-btn {
+    right: 10px;
+}
+
+
+/* Seismic Info Section */
+.seismic-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 35px;
-    margin-top: 50px;
+    gap: 30px;
+    margin-top: 40px;
 }
 
-.seismic-card {
-    background-color: rgba(255,255,255,0.1);
+.earthquake-list-container,
+.alerts-container {
+    background-color: white;
     padding: 30px;
-    border-radius: 10px;
-    text-align: left;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-    border: 1px solid rgba(255,255,255,0.05);
-}
-
-.seismic-card h3 {
-    color: var(--color-accent);
-    margin-top: 0;
-    margin-bottom: 15px;
-    font-size: 1.6em;
-}
-
-.seismic-card p, .seismic-card ul {
-    font-size: 1.0em;
-    margin-bottom: 10px;
-    color: var(--color-secondary);
-}
-
-.seismic-card ul {
-    list-style: none;
-    padding-left: 0;
-}
-.seismic-card ul li {
-    margin-bottom: 8px;
-    padding-left: 20px;
-    position: relative;
-}
-.seismic-card ul li::before {
-    content: '•';
-    color: var(--color-primary);
-    position: absolute;
-    left: 0;
-    top: 0;
-    font-weight: bold;
-}
-
-
-.seismic-counters {
-    display: flex;
-    justify-content: center;
-    gap: 50px; /* Más espacio */
-    margin-top: 60px;
-    text-align: center;
-    flex-wrap: wrap; /* Para responsive */
-}
-
-.seismic-counters .counter-item {
-    background-color: rgba(255,255,255,0.15);
-    padding: 25px 35px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    flex-basis: 250px; /* Ancho base para los items */
-}
-
-.seismic-counters .counter-item h3 {
-    font-size: 3.5em; /* Números más grandes */
-    color: var(--color-primary);
-    margin-bottom: 10px;
-}
-
-.seismic-counters .counter-item p {
-    font-size: 1.1em;
-    color: var(--color-secondary);
-    margin-top: 0;
-}
-
-
-/* Sección Monitor Sísmos */
-#seismic-monitor .seismic-card {
-    background-color: var(--color-secondary);
-    color: var(--color-dark);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-    border: none;
-}
-#seismic-monitor .seismic-card h3 {
-    color: var(--color-primary);
-}
-#seismic-monitor .seismic-card p {
-    color: var(--color-dark);
-}
-
-/* Sección Certificados */
-#certificates .certificate-section {
-    display: flex;
-    justify-content: center;
-    gap: 60px;
-    margin-top: 50px;
-    flex-wrap: wrap;
-}
-
-#certificates .verification-form,
-#certificates .admin-panel {
-    background-color: var(--color-secondary);
-    padding: 35px;
-    border-radius: 10px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-    max-width: 550px; /* Ligeramente más ancho */
-    text-align: left;
-    flex: 1; /* Para que ocupen espacio de forma flexible */
-    min-width: 320px;
-}
-
-#certificates .admin-panel {
-    min-width: 450px;
-}
-
-#certificates input[type="text"],
-#certificates input[type="password"],
-#certificates input[type="date"],
-#certificates select {
-    width: 100%; /* Ocupar todo el ancho */
-    padding: 12px; /* Más padding */
-    margin-bottom: 18px; /* Más espacio */
-    border: 1px solid var(--color-medium-grey);
-    border-radius: 6px;
-    font-size: 1em;
-    transition: border-color 0.3s ease;
-}
-
-#certificates input[type="text"]:focus,
-#certificates input[type="password"]:focus,
-#certificates input[type="date"]:focus,
-#certificates select:focus {
-    outline: none;
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.2);
-}
-
-#certificates .form-group {
-    margin-bottom: 20px;
-}
-
-#certificates button {
-    width: auto;
-    padding: 12px 25px;
-    margin-right: 15px;
-    border-radius: 6px;
-}
-
-#certificate-result, #admin-output {
-    margin-top: 25px;
-    padding: 20px;
     border-radius: 8px;
-    border: 1px solid var(--color-medium-grey);
-    background-color: var(--color-light-grey);
-    white-space: pre-wrap;
-    word-break: break-word;
-    font-size: 0.95em;
-    line-height: 1.5;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
-#admin-output #qrcode {
-    margin: 20px auto;
-    border: 5px solid var(--color-secondary); /* Borde blanco alrededor del QR */
-    display: inline-block; /* Para que margin auto funcione */
-}
-
-#issued-certificates-list {
+.earthquake-list ul {
     list-style: none;
     padding: 0;
-    max-height: 350px; /* Más alto */
-    overflow-y: auto;
-    border: 1px solid var(--color-medium-grey);
-    border-radius: 8px;
-    margin-top: 25px;
-    background-color: var(--color-secondary);
 }
 
-#issued-certificates-list li {
-    padding: 15px 20px;
+.earthquake-list li {
     border-bottom: 1px solid var(--color-light-grey);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 10px 0;
     font-size: 0.95em;
 }
 
-#issued-certificates-list li:nth-child(even) {
-    background-color: #fcfcfc;
-}
-
-#issued-certificates-list li:last-child {
+.earthquake-list li:last-child {
     border-bottom: none;
 }
 
-#issued-certificates-list button {
-    padding: 6px 12px;
-    font-size: 0.85em;
+.earthquake-list li strong {
+    color: var(--color-primary);
 }
 
-/* Sección Contacto */
-#contact .contact-content {
+.alerts-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.alerts-list li {
+    background-color: #fff3cd; /* Amarillo claro para alertas */
+    color: #856404; /* Texto oscuro para alertas */
+    border: 1px solid #ffeeba;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 10px;
+    font-size: 0.95em;
+}
+
+.alerts-list h4 {
+    color: var(--color-dark);
+}
+
+
+/* Certificates Section */
+.certificate-section-content {
     display: flex;
-    justify-content: center;
-    gap: 60px;
-    margin-top: 50px;
-    flex-wrap: wrap;
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
+    gap: 30px; /* Espacio entre los elementos */
+    justify-content: center; /* Centra los elementos */
+    align-items: flex-start; /* Alinea los elementos en la parte superior */
 }
 
-#contact .contact-form,
-#contact .contact-info {
-    background-color: var(--color-secondary);
-    padding: 35px;
+.certificate-section-content > div { /* Estilo para los divs internos (verificar, emitir, listar) */
+    flex: 1; /* Permite que los divs crezcan y se encojan */
+    min-width: 300px; /* Ancho mínimo antes de envolver */
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px; /* Espacio entre módulos si se apilan */
+}
+
+/* Estilos específicos para formularios y resultados */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"], /* Nuevo estilo para password */
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.result-message {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    font-weight: 600;
+}
+
+.result-message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+}
+
+.result-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+}
+
+/* Lista de certificados emitidos */
+.certificate-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.certificate-list li {
+    background-color: var(--color-light-grey);
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.certificate-list li:last-child {
+    margin-bottom: 0;
+}
+
+.certificate-list li span {
+    flex-grow: 1; /* Permite que el texto ocupe el espacio disponible */
+    margin-right: 15px;
+}
+
+.certificate-list li .view-btn,
+.certificate-list li .delete-btn {
+    padding: 8px 15px;
+    font-size: 0.9em;
+    margin-left: 5px;
+}
+
+.certificate-list li .delete-btn {
+    background-color: #dc3545; /* Rojo para borrar */
+}
+
+.certificate-list li .delete-btn:hover {
+    background-color: #c82333;
+}
+
+/* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1001; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto; /* 15% from the top and centered */
+    padding: 30px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 600px;
     border-radius: 10px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-    max-width: 550px;
-    text-align: left;
-    flex: 1;
-    min-width: 320px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    text-align: center;
 }
 
-#contact input[type="text"],
-#contact input[type="email"],
-#contact textarea {
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#certificate-details-content p {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+#certificate-details-content p strong {
+    color: var(--color-primary);
+}
+
+/* QR Code Container in Modal */
+.qr-code-container {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-light-grey);
+}
+
+.qr-code-container h4 {
+    margin-bottom: 15px;
+    color: var(--color-dark);
+}
+
+#qrcode {
+    display: flex; /* Para centrar el QR */
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 15px auto;
+    width: 128px; /* Asegura el tamaño del contenedor del QR */
+    height: 128px;
+}
+
+#qrcode canvas {
+    display: block; /* Elimina el espacio extra bajo el canvas si lo hubiera */
+}
+
+.qr-info {
+    font-size: 0.9em;
+    color: var(--color-grey);
+    margin-top: 10px;
+}
+
+.print-certificate-btn {
+    margin-top: 30px;
+    width: auto; /* Ajusta el ancho al contenido */
+}
+
+
+/* Admin Panel (Login) */
+.admin-login-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 50px auto; /* Centrar y añadir espacio */
+}
+
+.admin-login-container h2 {
+    color: var(--color-dark);
+    margin-bottom: 30px;
+}
+
+.admin-login-container h3 {
+    color: var(--color-dark);
+    font-size: 1.8em;
+    margin-bottom: 25px;
+}
+
+.admin-login-container .form-group {
+    margin-bottom: 20px;
+    text-align: left; /* Alinea los labels a la izquierda */
+}
+
+.admin-login-container .form-group label {
+    color: var(--color-grey);
+}
+
+.admin-login-container .btn {
     width: 100%;
     padding: 12px;
-    margin-bottom: 18px;
-    border: 1px solid var(--color-medium-grey);
-    border-radius: 6px;
-    font-size: 1em;
-    transition: border-color 0.3s ease;
+    font-size: 1.1em;
+    margin-top: 10px;
 }
-#contact input[type="text"]:focus,
-#contact input[type="email"]:focus,
-#contact textarea:focus {
-    outline: none;
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.2);
+
+.error-message {
+    color: #dc3545;
+    margin-top: 15px;
+    font-weight: 600;
 }
 
 
-#contact textarea {
-    resize: vertical;
-    min-height: 120px; /* Más alto */
+/* Contact Section */
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    margin-top: 40px;
 }
 
-#contact .contact-info p {
-    margin-bottom: 15px;
-    font-size: 1.0em;
+.contact-form-container,
+.contact-info {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.contact-info p {
     display: flex;
     align-items: center;
+    margin-bottom: 10px;
+    font-size: 1.05em;
 }
 
-#contact .contact-info i {
-    margin-right: 12px;
+.contact-info p i {
     color: var(--color-primary);
-    font-size: 1.3em;
+    margin-right: 10px;
+    font-size: 1.2em;
 }
 
-/* Pie de página */
+.social-links a {
+    color: var(--color-dark);
+    font-size: 1.8em;
+    margin-right: 15px;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: var(--color-primary);
+}
+
+
+/* Footer */
 footer {
     background-color: var(--color-dark);
-    color: var(--color-secondary);
+    color: white;
     text-align: center;
-    padding: 50px 0; /* Más padding */
-    font-size: 0.95em;
-    position: relative; /* Para que esté sobre el canvas */
-    z-index: 2;
+    padding: 20px 0;
+    font-size: 0.9em;
 }
 
-footer .logo-container img {
-    height: 60px; /* Logo más grande en el footer, pero aún normal */
-    margin-bottom: 20px;
+footer .footer-links {
+    margin-top: 10px;
 }
 
-footer .footer-nav ul {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 25px;
-    flex-wrap: wrap;
+footer .footer-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    transition: color 0.3s ease;
 }
 
-footer .footer-nav ul li {
-    margin: 0 20px;
-}
-
-footer .footer-nav ul li a {
-    color: var(--color-secondary);
-    font-weight: 500;
-    position: relative;
-    padding: 5px 0;
-}
-footer .footer-nav ul li a::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -3px;
-    width: 0;
-    height: 2px;
-    background-color: var(--color-accent); /* Color diferente para el footer */
-    transition: width 0.3s ease-in-out;
-}
-
-footer .footer-nav ul li a:hover::after {
-    width: 100%;
-}
-footer .footer-nav ul li a:hover {
-    color: var(--color-accent);
-}
-
-footer .social-icons {
-    margin-bottom: 25px;
-}
-footer .social-icons a {
-    color: var(--color-secondary);
-    font-size: 1.8em; /* Íconos más grandes */
-    margin: 0 12px;
-    transition: color 0.3s ease, transform 0.2s ease;
-}
-
-footer .social-icons a:hover {
-    color: var(--color-accent);
-    transform: translateY(-3px);
+footer .footer-links a:hover {
+    color: var(--color-primary);
 }
 
 /* Responsive Design */
-@media (max-width: 992px) {
-    h1 { font-size: 3.5em; }
-    h2 { font-size: 2em; }
-    h3 { font-size: 1.6em; }
-
-    header .container {
-        flex-direction: column;
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5em;
     }
 
-    nav ul {
-        margin-top: 15px;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-bottom: 10px;
+    h2 {
+        font-size: 2em;
     }
 
-    nav ul li {
-        margin: 8px 15px;
-    }
-
-    #hero {
-        padding: 120px 0;
-    }
-    #hero h1 {
+    .hero-content h1 {
         font-size: 3em;
     }
-    #hero p {
-        font-size: 1.2em;
+
+    .hero-content p {
+        font-size: 1.1em;
     }
 
-    #about .about-content {
-        flex-direction: column;
+    header .container {
+        flex-direction: column; /* Apila el logo y la nav en pantallas pequeñas */
         text-align: center;
-        gap: 30px;
     }
 
-    #about .about-text {
-        padding-right: 0;
+    header nav {
+        width: 100%; /* Asegura que la nav ocupe todo el ancho */
+        margin-top: 10px;
     }
 
-    #about .about-image {
-        margin-top: 20px;
-    }
-
-    #about .about-image .logo-circle {
-        width: 220px;
-        height: 220px;
-    }
-
-    .service-grid, .project-grid, .seismic-info-grid {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 25px;
-    }
-
-    #certificates .certificate-section,
-    #contact .contact-content {
-        flex-direction: column;
+    header nav ul {
+        flex-direction: column; /* Apila los ítems de la nav */
         align-items: center;
-        gap: 40px;
+        padding-bottom: 10px;
+        width: 100%;
     }
 
-    #certificates .admin-panel,
-    #certificates .verification-form,
-    #contact .contact-form,
-    #contact .contact-info {
-        max-width: 95%;
-        min-width: unset; /* Reiniciar min-width para pantallas pequeñas */
+    header nav ul li {
+        margin: 5px 0; /* Espacio vertical entre ítems */
+        display: block; /* Cada link ocupa su propia línea */
+        width: 100%;
     }
 
-    .seismic-counters {
-        gap: 30px;
-    }
-    .seismic-counters .counter-item {
-        flex-basis: 45%; /* Dos columnas en tablets */
-    }
-}
-
-@media (max-width: 600px) {
-    h1 { font-size: 2.5em; }
-    h2 { font-size: 1.8em; }
-    h3 { font-size: 1.4em; }
-
-    .container {
-        padding: 20px 0;
+    header nav ul li a,
+    .btn-admin-login {
+        display: block; /* Los links y el botón ocupan todo el ancho */
+        padding: 10px 0;
+        margin: 5px auto; /* Centrar */
+        text-align: center;
     }
 
-    .section-padding {
-        padding: 60px 0;
+    .hero-content {
+        padding: 0 20px;
     }
 
-    #hero {
-        padding: 100px 0;
-    }
-    #hero h1 {
-        font-size: 2.2em;
-    }
-    #hero p {
-        font-size: 1em;
-    }
-    .hero-buttons {
-        display: flex;
+    .about-content,
+    .contact-content,
+    .certificate-section-content,
+    .seismic-grid,
+    .admin-login-container {
         flex-direction: column;
-        align-items: center;
-        gap: 15px;
-    }
-    .hero-buttons .btn {
-        width: 80%;
-        margin: 0;
-    }
-
-    nav ul li {
-        margin: 5px 10px;
-    }
-
-    .service-grid, .project-grid, .seismic-info-grid {
-        grid-template-columns: 1fr; /* Una columna en móviles */
         gap: 20px;
     }
 
-    .seismic-counters .counter-item {
-        flex-basis: 90%; /* Una columna en móviles */
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 
-    #certificates .admin-panel,
-    #certificates .verification-form,
-    #contact .contact-form,
-    #contact .contact-info {
-        padding: 25px;
+    .services-grid {
+        grid-template-columns: 1fr;
     }
 
-    footer .footer-nav ul {
-        flex-direction: column;
-        gap: 10px;
+    .contact-grid {
+        grid-template-columns: 1fr;
     }
-    footer .social-icons a {
-        font-size: 1.5em;
+
+    .modal-content {
+        width: 95%;
+        margin: 20px auto;
     }
+}
+
+/* Canvas background for water effect */
+#waterEffectCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Envía el canvas al fondo */
+    display: block;
 }
