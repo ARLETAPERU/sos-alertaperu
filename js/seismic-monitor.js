@@ -6,7 +6,6 @@ let earthquakeMap = null; // Variable para almacenar la instancia del mapa
 // Función para inicializar el mapa
 function initMap() {
     // Si el mapa ya existe y es una instancia válida, lo eliminamos.
-    // Esto es útil si la función se llama varias veces (ej. al refrescar datos)
     if (earthquakeMap && earthquakeMap instanceof L.Map) {
         earthquakeMap.remove(); 
         console.log("Mapa Leaflet existente eliminado.");
@@ -16,7 +15,7 @@ function initMap() {
     const mapElement = document.getElementById('earthquake-map');
     if (!mapElement) {
         console.error("Elemento '#earthquake-map' no encontrado en el DOM. No se puede inicializar el mapa.");
-        return; // Salir si el elemento no existe
+        return false; // Retornar false si no se puede inicializar
     }
 
     // Inicializar el mapa
@@ -29,6 +28,8 @@ function initMap() {
         subdomains: 'abcd', // Los subdominios de CartoDB suelen ser a,b,c,d
         maxZoom: 19
     }).addTo(earthquakeMap);
+
+    return true; // Retornar true si se inicializó correctamente
 }
 
 // Función principal para obtener y mostrar sismos en el mapa
@@ -39,12 +40,12 @@ async function fetchEarthquakes(url, isPeru = false) {
     const prevMessage = mapContainer.querySelector('.map-error-message');
     if (prevMessage) prevMessage.remove();
 
-    // Doble verificación: Asegurarse de que el mapa esté inicializado antes de intentar usarlo
+    // Asegurarse de que el mapa esté inicializado antes de intentar usarlo
+    // Si no está inicializado, intenta inicializarlo. Si falla, sale.
     if (!earthquakeMap || !(earthquakeMap instanceof L.Map)) {
-        console.error("El mapa no está inicializado al intentar cargar sismos. Reintentando inicializar...");
-        initMap(); // Intentar inicializar de nuevo por si acaso
-        if (!earthquakeMap || !(earthquakeMap instanceof L.Map)) { // Si sigue sin estar inicializado, salir
-            console.error("El mapa sigue sin estar inicializado después de reintento. No se pueden añadir marcadores.");
+        console.error("El mapa no está listo al intentar cargar sismos. Reintentando inicializar...");
+        if (!initMap()) { // Intentar inicializar de nuevo. Si initMap devuelve false (no encontró el elemento), salir.
+            console.error("No se pudo inicializar el mapa. Abortando carga de sismos.");
             const errorMessage = document.createElement('p');
             errorMessage.className = 'map-error-message';
             errorMessage.textContent = 'Error interno: El mapa no se ha cargado correctamente. Intenta recargar la página.';
@@ -59,15 +60,19 @@ async function fetchEarthquakes(url, isPeru = false) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        console.log("Datos de sismos recibidos:", data); // Log para ver los datos
+        console.log("Datos de sismos recibidos:", data); 
 
         // Limpiar marcadores anteriores del mapa (si hay alguno de una carga previa)
-        earthquakeMap.eachLayer(function(layer) {
-            if (layer instanceof L.Marker) {
-                earthquakeMap.removeLayer(layer);
-            }
-        });
-        console.log("Marcadores anteriores limpiados.");
+        // Se hace solo si earthquakeMap es una instancia válida de un mapa
+        if (earthquakeMap && earthquakeMap instanceof L.Map) {
+            earthquakeMap.eachLayer(function(layer) {
+                if (layer instanceof L.Marker) {
+                    earthquakeMap.removeLayer(layer);
+                }
+            });
+            console.log("Marcadores anteriores limpiados.");
+        }
+
 
         if (data.features && data.features.length > 0) {
             // Filtrar sismos si es para Perú y zonas cercanas relevantes
@@ -83,8 +88,8 @@ async function fetchEarthquakes(url, isPeru = false) {
                            placeLower.includes('colombia') || placeLower.includes('brazil') || 
                            placeLower.includes('argentina') || inPeruRegion;
                 }
-                return true; // Si no es filtro de Perú, incluye todos
-            }).slice(0, 100); // Limitar la cantidad de sismos a mostrar en el mapa
+                return true; 
+            }).slice(0, 100); 
 
             if (relevantEarthquakes.length === 0) {
                 console.log("No se encontraron sismos relevantes después del filtro.");
@@ -106,13 +111,13 @@ async function fetchEarthquakes(url, isPeru = false) {
                     const lon = quake.geometry.coordinates[0];
 
                     // Definir color del marcador basado en la magnitud
-                    let markerColor = '#28a745'; // Verde para magnitud baja (<4.5)
+                    let markerColor = '#28a745'; 
                     if (mag >= 4.5 && mag < 5.5) {
-                        markerColor = '#ffc107'; // Amarillo para magnitud media
+                        markerColor = '#ffc107'; 
                     } else if (mag >= 5.5 && mag < 6.5) {
-                        markerColor = '#fd7e14'; // Naranja para magnitud alta
+                        markerColor = '#fd7e14'; 
                     } else if (mag >= 6.5) {
-                        markerColor = '#dc3545'; // Rojo para magnitud muy alta
+                        markerColor = '#dc3545'; 
                     }
 
                     // Crear un icono personalizado (div con el número de magnitud)
@@ -120,7 +125,7 @@ async function fetchEarthquakes(url, isPeru = false) {
                         className: 'custom-div-icon',
                         html: `<div style="background-color: ${markerColor}; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.9em; border: 2px solid white; box-shadow: 0 0 8px rgba(0,0,0,0.4);">${mag.toFixed(1)}</div>`,
                         iconSize: [30, 30],
-                        iconAnchor: [15, 15] // Centra el icono
+                        iconAnchor: [15, 15] 
                     });
 
                     // Añadir marcador al mapa y bindear un popup con la información
@@ -136,7 +141,7 @@ async function fetchEarthquakes(url, isPeru = false) {
 
                 // Ajustar el mapa para que se ajusten todos los marcadores visibles (si hay sismos)
                 const latLngs = relevantEarthquakes.map(q => [q.geometry.coordinates[1], q.geometry.coordinates[0]]);
-                if (latLngs.length > 0) { // Solo ajustar si hay sismos para mostrar
+                if (latLngs.length > 0) { 
                     earthquakeMap.fitBounds(L.latLngBounds(latLngs).pad(0.2)); 
                 }
             }
@@ -161,13 +166,20 @@ async function fetchEarthquakes(url, isPeru = false) {
     }
 }
 
-// Función para cargar todos los datos en tiempo real
+// Función para cargar todos los datos en tiempo real y alertas
 function loadRealTimeSeismicData() {
+    // Si L (Leaflet) no está definido, o el elemento del mapa no existe, espera y reintenta
+    if (typeof L === 'undefined' || !document.getElementById('earthquake-map')) {
+        console.log("Leaflet o el elemento del mapa no están listos. Reintentando en 100ms...");
+        setTimeout(loadRealTimeSeismicData, 100);
+        return;
+    }
+
+    console.log("Leaflet y el elemento del mapa están listos. Iniciando mapa y carga de datos.");
     initMap(); // Inicializar el mapa al cargar los datos
 
     // Fuente de datos del USGS (últimos sismos de magnitud 2.5+ en el día)
     const globalUrl = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson';
-    // Se mantiene en FALSE para ver sismos globales y confirmar que funciona.
     fetchEarthquakes(globalUrl, false); 
 
     // Alertas de Emergencia Perú (Manual por ahora)
@@ -177,23 +189,25 @@ function loadRealTimeSeismicData() {
         "**Comunicado:** Lluvias moderadas en la sierra sur hasta el 17 de junio. Tomar precauciones.",
         "**Info:** Curso gratuito de Primeros Auxilios este sábado 21 de junio. ¡Inscríbete en Contacto! "
     ];
-    if (alerts.length > 0) {
-        peruAlertsDiv.innerHTML = '<h4>Alertas de Emergencia Activas:</h4>';
-        alerts.forEach(alert => {
-            const p = document.createElement('p');
-            p.innerHTML = alert;
-            peruAlertsDiv.appendChild(p);
-        });
+    if (peruAlertsDiv) { // Asegurarse de que el elemento exista
+        if (alerts.length > 0) {
+            peruAlertsDiv.innerHTML = '<h4>Alertas de Emergencia Activas:</h4>';
+            alerts.forEach(alert => {
+                const p = document.createElement('p');
+                p.innerHTML = alert;
+                peruAlertsDiv.appendChild(p);
+            });
+        } else {
+            peruAlertsDiv.innerHTML = '<p>No hay alertas activas en este momento.</p>';
+        }
     } else {
-        peruAlertsDiv.innerHTML = '<p>No hay alertas activas en este momento.</p>';
+        console.warn("Elemento '#peru-alerts' no encontrado.");
     }
 }
 
 // Llamar a la función para cargar los datos cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', () => {
-    // Retrasar ligeramente la inicialización para asegurar que todo el DOM esté listo.
-    setTimeout(loadRealTimeSeismicData, 100); 
-});
+// Esta vez, `DOMContentLoaded` solo inicia el chequeo recurrente.
+document.addEventListener('DOMContentLoaded', loadRealTimeSeismicData);
 
 // Opcional: Actualizar datos cada cierto tiempo (ej. cada 5 minutos)
 // setInterval(loadRealTimeSeismicData, 5 * 60 * 1000);
