@@ -40,7 +40,7 @@ function generateUniqueCode(course) {
         "Evacuacion": "EV",
         "Seguridad Laboral": "SL"
     };
-    const courseAbbr = courseAbbrMap[course] || course.substring(0, 2).toUpperCase(); // Usa el mapa o las primeras 2 letras
+    const courseAbbr = courseAbbrMap[course] || course.substring(0, 2).toUpperCase();
     const count = certificates.filter(c => c.code.startsWith(`SOS-${year}-${courseAbbr}`)).length + 1;
     return `SOS-${year}-${courseAbbr}-${String(count).padStart(3, '0')}`;
 }
@@ -48,14 +48,18 @@ function generateUniqueCode(course) {
 function renderIssuedCertificates() {
     const list = document.getElementById('issued-certificates-list');
     list.innerHTML = '';
-    certificates.forEach((cert, index) => {
-        const li = document.createElement('li');
-        li.innerHTML = `
-            <span><strong>${cert.code}</strong><br>${cert.name} - ${cert.course}</span>
-            <button class="btn btn-secondary" onclick="deleteCertificate(${index})">Eliminar</button>
-        `;
-        list.appendChild(li);
-    });
+    if (certificates.length === 0) {
+        list.innerHTML = '<li style="justify-content: center; color: #777;">No hay certificados emitidos aún.</li>';
+    } else {
+        certificates.forEach((cert, index) => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <span><strong>${cert.code}</strong><br>${cert.name} - ${cert.course}</span>
+                <button class="btn btn-secondary" onclick="deleteCertificate(${index})">Eliminar</button>
+            `;
+            list.appendChild(li);
+        });
+    }
 }
 
 function adminLogin() {
@@ -82,7 +86,7 @@ function generateCertificate() {
     const output = document.getElementById('admin-output');
 
     if (!name || !dni || !course || !date) {
-        output.style.color = 'red';
+        output.style.color = 'var(--color-primary)';
         output.textContent = 'Por favor, completa todos los campos para generar el certificado.';
         return;
     }
@@ -112,9 +116,8 @@ function generateCertificate() {
         <div id="qrcode" style="margin: 10px auto;"></div>
         <a href="${verificationUrl}" target="_blank" class="btn btn-secondary" style="margin-top: 10px;">Verificar Certificado (Enlace)</a>
     `;
-    output.style.color = 'var(--color-dark)'; // Color de texto genérico para resultados
+    output.style.color = 'var(--color-dark)';
 
-    // Limpiar el QR anterior si existe y generar uno nuevo
     document.getElementById("qrcode").innerHTML = '';
     new QRCode(document.getElementById("qrcode"), {
         text: verificationUrl,
@@ -125,7 +128,6 @@ function generateCertificate() {
         correctLevel : QRCode.CorrectLevel.H
     });
 
-    // Limpiar campos del formulario
     document.getElementById('cert-name').value = '';
     document.getElementById('cert-dni').value = '';
     document.getElementById('cert-date').value = '';
@@ -146,7 +148,7 @@ function verifyCertificate() {
     resultDiv.innerHTML = '';
 
     if (!codeInput) {
-        resultDiv.style.color = 'red';
+        resultDiv.style.color = 'var(--color-primary)';
         resultDiv.textContent = 'Por favor, ingresa un código de certificado.';
         return;
     }
@@ -165,12 +167,11 @@ function verifyCertificate() {
             <p><strong>Estado:</strong> ${foundCert.status}</p>
         `;
     } else {
-        resultDiv.style.color = 'red';
+        resultDiv.style.color = 'var(--color-primary)';
         resultDiv.textContent = 'Certificado no encontrado o no válido.';
     }
 }
 
-// Manejar el precargado del código si viene de un QR (URL con parámetro cert_code)
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const certCode = urlParams.get('cert_code');
@@ -182,8 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // --- JavaScript para Monitor de Sismos (Simulado, para integración futura) ---
-// En una aplicación real, estas funciones harían llamadas a APIs de sismología.
-// Ejemplos de APIs: USGS Earthquake Hazards Program (global), IGP (Perú) para datos más precisos y en tiempo real.
 function loadSeismicData() {
     const peruEarthquakes = [
         { mag: 4.2, loc: "Arequipa", date: "14/06/2025 18:30", depth: "30 km" },
@@ -226,17 +225,16 @@ function loadSeismicData() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', loadSeismicData); // Cargar al inicio
+document.addEventListener('DOMContentLoaded', loadSeismicData);
 
 // --- JavaScript para Formulario de Contacto (usando Formspree) ---
-// Nota: Necesitarás configurar un formulario en Formspree.io y reemplazar 'your_form_id'
 const contactForm = document.getElementById('contactForm');
 const formStatus = document.getElementById('form-status');
 
 contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     formStatus.textContent = 'Enviando...';
-    formStatus.style.color = 'gray';
+    formStatus.style.color = 'gray'; // Un color neutro para "enviando"
 
     const formData = new FormData(contactForm);
     const response = await fetch(contactForm.action, {
@@ -249,7 +247,7 @@ contactForm.addEventListener('submit', async (e) => {
 
     if (response.ok) {
         formStatus.textContent = '¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.';
-        formStatus.style.color = 'green';
+        formStatus.className = 'status-message success-message'; // Clases para estilos
         contactForm.reset();
     } else {
         const data = await response.json();
@@ -258,6 +256,6 @@ contactForm.addEventListener('submit', async (e) => {
         } else {
             formStatus.textContent = '¡Oops! Hubo un problema al enviar tu mensaje.';
         }
-        formStatus.style.color = 'red';
+        formStatus.className = 'status-message error-message'; // Clases para estilos
     }
 });
