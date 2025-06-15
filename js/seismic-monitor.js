@@ -12,15 +12,26 @@ function initMap() {
     // Coordenadas iniciales (centro de Perú) y zoom inicial
     earthquakeMap = L.map('earthquake-map').setView([-9.19, -75.015], 5); // Latitud, Longitud, Zoom
 
-    // Añadir capa de tiles (mapa base) de OpenStreetMap
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18,
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    // AÑADIDO: Nuevo proveedor de tiles - CartoDB Voyager (más robusto para HTTPS)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd', // Los subdominios de CartoDB suelen ser a,b,c,d
+        maxZoom: 19
     }).addTo(earthquakeMap);
+
+    // Opcional: Si el mapa no carga, podrías intentar con otra alternativa como Stamen Toner (requiere atribución)
+    // L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}{r}.png', {
+    //     attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    //     subdomains: 'abcd',
+    //     minZoom: 0,
+    //     maxZoom: 20
+    // }).addTo(earthquakeMap);
 }
 
 // Función principal para obtener y mostrar sismos en el mapa
 async function fetchEarthquakes(url, isPeru = false) {
+    const mapContainer = document.getElementById('earthquake-map'); // Obtener el contenedor del mapa
+    
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -28,7 +39,8 @@ async function fetchEarthquakes(url, isPeru = false) {
         }
         const data = await response.json();
         
-        // Limpiar marcadores anteriores del mapa
+        // Limpiar marcadores anteriores del mapa (si hay alguno de una carga previa)
+        // Esto es importante para que los sismos no se dupliquen en cada actualización
         earthquakeMap.eachLayer(function(layer) {
             if (layer instanceof L.Marker) {
                 earthquakeMap.removeLayer(layer);
@@ -43,14 +55,21 @@ async function fetchEarthquakes(url, isPeru = false) {
                     const lat = quake.geometry.coordinates[1];
                     const lon = quake.geometry.coordinates[0];
                     // Filtro más inclusivo para Perú y zonas cercanas (ajusta las coordenadas si es necesario)
-                    return placeLower.includes('peru') || placeLower.includes('chile') || placeLower.includes('ecuador') || placeLower.includes('bolivia') || placeLower.includes('colombia') || 
-                           (lat >= -20 && lat <= 0 && lon >= -85 && lon <= -65); // Rango aproximado para la región andina central
+                    // Rango aproximado para la región andina central de Sudamérica
+                    const inPeruRegion = (lat >= -20 && lat <= 0 && lon >= -85 && lon <= -65);
+                    return placeLower.includes('peru') || placeLower.includes('chile') || 
+                           placeLower.includes('ecuador') || placeLower.includes('bolivia') || 
+                           placeLower.includes('colombia') || inPeruRegion;
                 }
                 return true; // Si no es filtro de Perú, incluye todos
             }).slice(0, 50); // Limitar la cantidad de sismos a mostrar en el mapa (ajusta este número si quieres más o menos)
 
             if (relevantEarthquakes.length === 0 && isPeru) {
                 console.log("No se encontraron sismos recientes relevantes para Perú en la fuente.");
+                // Opcional: Mostrar un mensaje en el mapa si no hay sismos relevantes
+                // if (mapContainer) {
+                //     mapContainer.querySelector('.leaflet-control-container').insertAdjacentHTML('afterend', '<p style="text-align: center; color: #555; position: absolute; top: 50%; left: 0; right: 0; transform: translateY(-50%); z-index: 999;">No se encontraron sismos recientes para Perú.</p>');
+                // }
             }
 
             relevantEarthquakes.forEach(quake => {
@@ -93,7 +112,7 @@ async function fetchEarthquakes(url, isPeru = false) {
                 `);
             });
 
-            // Ajustar el mapa para que se ajusten todos los marcadores visibles
+            // Ajustar el mapa para que se ajusten todos los marcadores visibles (si hay sismos)
             if (relevantEarthquakes.length > 0) {
                 const latLngs = relevantEarthquakes.map(q => [q.geometry.coordinates[1], q.geometry.coordinates[0]]);
                 earthquakeMap.fitBounds(L.latLngBounds(latLngs).pad(0.2)); // pad añade un margen
@@ -101,17 +120,36 @@ async function fetchEarthquakes(url, isPeru = false) {
 
         } else {
             console.log(`No se encontraron sismos en la fuente: ${url}`);
-            // Podrías mostrar un mensaje en el contenedor del mapa
-            const mapContainer = document.getElementById('earthquake-map');
+            // Mostrar un mensaje en el contenedor del mapa si no hay sismos
             if (mapContainer) {
-                mapContainer.innerHTML = '<p style="text-align: center; padding-top: 50px; color: #555;">No se encontraron sismos recientes para mostrar.</p>';
+                // Eliminar cualquier mensaje previo antes de añadir uno nuevo
+                const prevMessage = mapContainer.querySelector('.map-error-message');
+                if (prevMessage) prevMessage.remove();
+
+                const noDataMessage = document.createElement('p');
+                noDataMessage.className = 'map-error-message';
+                noDataMessage.style = "text-align: center; padding-top: 50px; color: #555; position: absolute; top: 50%; left: 0; right: 0; transform: translateY(-50%); z-index: 999;";
+                noDataMessage.textContent = 'No se encontraron sismos recientes para mostrar.';
+                mapContainer.appendChild(noDataMessage);
             }
         }
     } catch (error) {
         console.error(`Error al cargar datos de sismos desde ${url}:`, error);
-        const mapContainer = document.getElementById('earthquake-map');
+        // Mostrar un mensaje de error claro en el contenedor del mapa
         if (mapContainer) {
-            mapContainer.innerHTML = '<p style="text-align: center; padding-top: 50px; color: red;">Error al cargar datos de sismos. Inténtalo de nuevo más tarde.</p>';
+            // Eliminar cualquier mensaje previo antes de añadir uno nuevo
+            const prevMessage = mapContainer.querySelector('.map-error-message');
+            if (prevMessage) prevMessage.remove();
+
+            const errorMessage = document.createElement('p');
+            errorMessage.className = 'map-error-message';
+            errorMessage.style = "text-align: center; padding-top: 50px; color: red; position: absolute; top: 50%; left: 0; right: 0; transform: translateY(-50%); z-index: 999;";
+            if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError') || error.message.includes('ERR_NAME_NOT_RESOLVED')) {
+                errorMessage.textContent = 'Error de conexión: No se pudieron cargar los datos sísmicos. Verifica tu conexión a internet o intenta más tarde.';
+            } else {
+                errorMessage.textContent = 'Error al cargar datos de sismos. Inténtalo de nuevo más tarde.';
+            }
+            mapContainer.appendChild(errorMessage);
         }
     }
 }
@@ -121,6 +159,8 @@ function loadRealTimeSeismicData() {
     initMap(); // Inicializar el mapa al cargar los datos
 
     // Fuente de datos del USGS (últimos sismos de magnitud 2.5+ en el día)
+    // NOTA: Si el error ERR_NAME_NOT_RESOLVED persiste, el problema está fuera del código
+    // y debes verificar tu conexión DNS o firewall.
     const globalUrl = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson';
     fetchEarthquakes(globalUrl, true); // True para filtrar los que podrían ser de Perú y zonas cercanas para el mapa
 
