@@ -178,21 +178,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
                 verificationResult.style.borderColor = 'green';
 
-                // *** CREAR EL QR CODE SÓLO AQUI Y SI LA LIBRERÍA EXISTE ***
-                if (typeof QRCode !== 'undefined') {
-                    new QRCode(document.getElementById("qrcode"), {
-                        text: window.location.origin + window.location.pathname + "#certificates?code=" + foundCert.code,
-                        width: 128,
-                        height: 128
-                    });
-                } else {
-                    console.warn("QRCode library not loaded, cannot generate QR code.");
-                    // Si no se pudo generar el QR, quizás informar al usuario
-                    const qrcodeContainer = document.getElementById('qrcode-container');
-                    if (qrcodeContainer) {
-                        qrcodeContainer.innerHTML = '<p style="color: red;">Error: No se pudo generar el Código QR.</p>';
+                // *** CAMBIO CLAVE AQUÍ: Usar un setTimeout para dar tiempo a que el DOM se renderice y la librería QR sea accesible ***
+                setTimeout(() => {
+                    const qrcodeDiv = document.getElementById("qrcode");
+                    if (qrcodeDiv && typeof QRCode !== 'undefined') {
+                        // Limpiar el QR anterior si existe
+                        qrcodeDiv.innerHTML = '';
+                        new QRCode(qrcodeDiv, {
+                            text: window.location.origin + window.location.pathname + "#certificates?code=" + foundCert.code,
+                            width: 128,
+                            height: 128
+                        });
+                    } else {
+                        console.warn("QRCode library not loaded or #qrcode element not found, cannot generate QR code.");
+                        const qrcodeContainer = document.getElementById('qrcode-container');
+                        if (qrcodeContainer) {
+                            qrcodeContainer.innerHTML = '<p style="color: red;">Error: No se pudo generar el Código QR.</p>';
+                        }
                     }
-                }
+                }, 50); // Pequeño retraso de 50ms
+
 
                 // Configurar el botón de impresión
                 const printButton = verificationResult.querySelector('.print-certificate-btn');
