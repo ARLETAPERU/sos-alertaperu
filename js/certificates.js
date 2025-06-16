@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const qrcodeDiv = document.getElementById("qrcode");
                     if (qrcodeDiv && typeof QRCode !== 'undefined') {
                         // Limpiar el QR anterior si existe
-                        qrcodeDiv.innerHTML = '';
+                        qrcodeDiv.innerHTML = ''; // Importante para limpiar el contenido antes de generar uno nuevo
                         new QRCode(qrcodeDiv, {
                             text: window.location.origin + window.location.pathname + "#certificates?code=" + foundCert.code,
                             width: 128,
@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         console.warn("QRCode library not loaded or #qrcode element not found, cannot generate QR code.");
                         const qrcodeContainer = document.getElementById('qrcode-container');
                         if (qrcodeContainer) {
-                            qrcodeContainer.innerHTML = '<p style="color: red;">Error: No se pudo generar el Código QR.</p>';
+                            qrcodeContainer.innerHTML = '<p style="color: red;">Error: No se pudo generar el Código QR. Recarga la página o intenta de nuevo.</p>';
                         }
                     }
                 }, 50); // Pequeño retraso de 50ms
