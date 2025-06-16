@@ -1,38 +1,87 @@
-/* Estilos Generales */
+/* Variables CSS */
 :root {
     --color-primary: #FF4500; /* Naranja rojizo */
-    --color-secondary: #007BFF; /* Azul brillante */
+    --color-secondary: #007bff; /* Azul vibrante */
+    --color-tertiary: #6c757d; /* Gris para textos secundarios */
     --color-dark: #333;
     --color-light: #f4f4f4;
-    --color-grey: #666;
-    --color-light-grey: #e9ecef;
     --font-heading: 'Montserrat', sans-serif;
     --font-body: 'Open Sans', sans-serif;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
+/* Base */
 body {
     font-family: var(--font-body);
     line-height: 1.6;
     color: var(--color-dark);
-    background-color: white; /* Fondo blanco por defecto */
+    background-color: white; /* Asegúrate de que el fondo sea blanco o claro */
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Evita scroll horizontal */
 }
 
 .container {
-    width: 90%;
     max-width: 1200px;
-    margin: auto;
-    overflow: hidden;
-    padding: 20px 0;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--color-dark);
+    margin-bottom: 20px;
+}
+
+a {
+    text-decoration: none;
+    color: var(--color-primary);
+}
+
+a:hover {
+    color: var(--color-secondary);
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    color: white;
+    border: 1px solid var(--color-primary);
+}
+
+.btn-primary:hover {
+    background-color: #e63900; /* Un tono más oscuro */
+    border-color: #e63900;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.btn-whatsapp {
+    background-color: #25D366; /* Color de WhatsApp */
+    color: white;
+    border: 1px solid #25D366;
+    margin-top: 15px;
+}
+
+.btn-whatsapp:hover {
+    background-color: #1DA851;
+    border-color: #1DA851;
 }
 
 .section-padding {
@@ -40,248 +89,141 @@ body {
 }
 
 .section-light-grey {
-    background-color: var(--color-light-grey);
-}
-
-.section-dark {
-    background-color: var(--color-dark);
-    color: white;
-}
-
-h1, h2, h3 {
-    font-family: var(--font-heading);
-    margin-bottom: 20px;
-    color: var(--color-dark);
-}
-
-h1 {
-    font-size: 3.5em;
-    font-weight: 700;
-}
-
-h2 {
-    font-size: 2.8em;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 40px;
-    position: relative;
-}
-
-h2::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 4px;
-    background-color: var(--color-primary);
-    border-radius: 2px;
-}
-
-h3 {
-    font-size: 1.8em;
-    font-weight: 600;
-    margin-bottom: 15px;
-}
-
-p {
-    margin-bottom: 15px;
-}
-
-.text-center {
-    text-align: center;
-}
-
-.btn {
-    display: inline-block;
-    padding: 12px 25px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
-    cursor: pointer;
-    border: none;
-    font-family: var(--font-body);
-    font-size: 1em;
-}
-
-.btn-primary {
-    background-color: var(--color-primary);
-    color: white;
-}
-
-.btn-primary:hover {
-    background-color: #e63900; /* Un poco más oscuro */
-    transform: translateY(-2px);
-}
-
-.btn-secondary {
-    background-color: var(--color-secondary);
-    color: white;
-}
-
-.btn-secondary:hover {
-    background-color: #0069d9; /* Un poco más oscuro */
-    transform: translateY(-2px);
-}
-
-.btn-whatsapp {
-    background-color: #25D366; /* WhatsApp green */
-    color: white;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 15px;
-}
-
-.btn-whatsapp:hover {
-    background-color: #1DA851;
-}
-
-.btn-admin-login {
-    background-color: var(--color-dark);
-    color: white;
-    padding: 8px 15px; /* Más pequeño que los botones principales */
-    font-size: 0.9em;
-}
-
-.btn-admin-login:hover {
-    background-color: #555;
+    background-color: var(--color-light);
 }
 
 /* Header */
 header {
     background-color: rgba(255, 255, 255, 0.9);
-    color: var(--color-dark);
-    padding: 10px 0;
+    padding: 15px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     position: fixed;
     width: 100%;
     top: 0;
+    left: 0;
     z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 header .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
 }
 
 .logo-container img {
-    height: 50px; /* Ajusta el tamaño del logo */
+    height: 50px; /* Tamaño del logo */
+    vertical-align: middle;
 }
 
 header nav ul {
     list-style: none;
+    margin: 0;
+    padding: 0;
     display: flex;
 }
 
 header nav ul li {
-    margin-left: 25px;
+    margin-left: 30px;
 }
 
 header nav ul li a {
     color: var(--color-dark);
-    text-decoration: none;
     font-weight: 600;
+    font-size: 1.1em;
     transition: color 0.3s ease;
-    padding-bottom: 5px; /* Espacio para el borde inferior */
-    position: relative;
 }
 
-header nav ul li a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 3px;
-    background-color: var(--color-primary);
-    left: 0;
-    bottom: 0;
-    transition: width 0.3s ease;
-}
-
-header nav ul li a:hover::after {
-    width: 100%;
+header nav ul li a:hover {
+    color: var(--color-primary);
 }
 
 /* Hero Section */
 .hero-section {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../img/hero-bg.jpg') no-repeat center center/cover;
+    background: url('../img/hero-bg.jpg') no-repeat center center/cover;
     color: white;
     text-align: center;
-    padding: 150px 0;
+    padding: 200px 0 150px; /* Ajusta el padding para centrar contenido */
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100vh; /* Asegura que ocupe al menos toda la altura de la ventana */
-    padding-top: 80px; /* Espacio para el header fijo */
+    position: relative;
+    z-index: 1; /* Para que el canvas quede detrás */
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Overlay oscuro */
+    z-index: -1;
 }
 
 .hero-content {
-    max-width: 900px;
+    max-width: 800px;
+    margin-top: 50px; /* Deja espacio para el header fijo */
 }
 
 .hero-content h1 {
+    font-size: 3.5em;
+    margin-bottom: 20px;
     color: white;
-    margin-bottom: 25px;
-    line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
 .hero-content p {
-    font-size: 1.2em;
+    font-size: 1.3em;
     margin-bottom: 40px;
-}
-
-.hero-buttons .btn {
-    margin: 0 10px;
-}
-
-.stats-grid {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 30px;
-    margin-top: 60px;
-}
-
-.stat-item {
-    background-color: rgba(255, 255, 255, 0.15);
-    padding: 20px 30px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-    min-width: 200px;
-}
-
-.stat-item .counter {
-    font-size: 2.5em;
-    font-weight: 700;
-    color: var(--color-primary);
-    display: block;
-    margin-bottom: 5px;
-}
-
-.stat-item p {
-    font-size: 1.1em;
-    color: white;
-    margin: 0;
+    color: #eee;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
 }
 
 /* About Section */
 .about-content {
-    max-width: 900px;
-    text-align: center;
-}
-
-.about-content h2 {
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .about-content p {
+    max-width: 800px;
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+    width: 100%;
+    max-width: 900px;
+}
+
+.stat-item {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.stat-item span {
+    font-family: var(--font-heading);
+    font-size: 3em;
+    font-weight: bold;
+    color: var(--color-primary);
+    display: block;
+    margin-bottom: 10px;
+}
+
+.stat-item p {
     font-size: 1.1em;
-    line-height: 1.8;
+    color: var(--color-tertiary);
+    margin: 0;
 }
 
 /* Services Section */
@@ -289,505 +231,319 @@ header nav ul li a:hover::after {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
-    margin-top: 40px;
 }
 
 .service-item {
     background-color: white;
     padding: 30px;
     border-radius: 8px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
 .service-item:hover {
     transform: translateY(-10px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 }
 
 .service-item i {
-    font-size: 3.5em;
-    color: var(--color-secondary);
+    font-size: 3em;
+    color: var(--color-primary);
     margin-bottom: 20px;
 }
 
 .service-item h3 {
-    font-size: 1.5em;
+    margin-bottom: 15px;
     color: var(--color-dark);
 }
 
 .service-item p {
-    color: var(--color-grey);
-    font-size: 0.95em;
+    color: var(--color-tertiary);
 }
 
 /* Projects Section */
-.projects-slider {
-    position: relative;
-    max-width: 900px;
-    margin: 40px auto 20px auto;
-    overflow: hidden;
-    border-radius: 10px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-    background-color: white;
-    padding-bottom: 20px; /* Espacio para el texto */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
 }
 
 .project-item {
-    display: none; /* Controlado por JS */
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
     text-align: center;
-    padding: 0;
+}
+
+.project-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.project-item h3 {
+    padding: 20px 20px 10px;
+    margin: 0;
     color: var(--color-dark);
 }
 
-.project-item.active {
-    display: block;
+.project-item p {
+    padding: 0 20px 20px;
+    color: var(--color-tertiary);
+    margin: 0;
 }
 
-.projects-slider img {
-    width: 100%;
-    height: 350px;
-    object-fit: cover;
-    border-radius: 10px 10px 0 0;
-    margin-bottom: 15px;
+.project-item .btn-secondary {
+    margin-bottom: 20px;
 }
 
-.projects-slider h3 {
-    color: var(--color-primary);
-    margin-bottom: 10px;
-    padding: 0 20px;
-    font-size: 1.6em;
-}
-
-.projects-slider p {
-    color: var(--color-grey);
-    font-size: 1.0em;
-    padding: 0 20px;
-}
-
-.slider-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 2em;
-    border-radius: 5px;
-    z-index: 10;
-    transition: background-color 0.3s ease;
-}
-
-.slider-nav:hover {
-    background-color: rgba(0, 0, 0, 0.7);
-}
-
-.prev-btn {
-    left: 10px;
-}
-
-.next-btn {
-    right: 10px;
-}
-
-/* --- Sección Sismos - MODIFICADO COMPLETAMENTE --- */
+/* Sección de Información Sísmica */
 #seismic-info {
-    padding-top: 80px;
-    padding-bottom: 80px;
+    background-color: #f8f8f8; 
+    padding: 60px 0;
+    text-align: center;
+}
+
+#seismic-info h2 {
+    margin-bottom: 40px;
+    color: var(--color-dark);
 }
 
 .seismic-content-wrapper {
-    display: flex;
-    flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
-    gap: 30px;
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 30px; 
     justify-content: center;
-    margin-top: 40px;
+    align-items: flex-start;
 }
 
+/* Estilos para el mapa de sismos */
 #earthquake-map {
-    flex: 2; /* Ocupa más espacio que las alertas */
-    min-width: 400px; /* Ancho mínimo para el mapa */
-    height: 500px; /* Altura fija para el mapa */
-    border: 1px solid var(--color-light-grey);
+    /* *** ESTO ES CRÍTICO: Define el alto y el ancho del mapa *** */
+    width: 100%; 
+    height: 500px; /* ALTURA FIJA REQUERIDA POR LEAFLET */
+    
+    background-color: #e0e0e0; /* Color temporal de carga */
+    border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    background-color: #f8f8f8; /* Para que no se vea vacío mientras carga */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    flex-grow: 1; 
+    min-width: 300px; /* Asegura un ancho mínimo en pantallas pequeñas */
+    /* Asegúrate de que no haya display:none o visibility:hidden aquí */
+    /* Es buena práctica agregar un overflow: hidden; */
+    overflow: hidden; 
 }
 
-.alerts-container {
-    flex: 1; /* Ocupa el espacio restante */
-    min-width: 300px; /* Ancho mínimo para las alertas */
-    background-color: white;
-    padding: 30px;
+/* Estilos para la sección de alertas */
+#peru-alerts {
+    background-color: #fff;
+    padding: 25px;
     border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    height: fit-content; /* Se ajusta al contenido */
-}
-
-.alerts-container h3 {
-    color: var(--color-primary);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    max-width: 350px; 
     text-align: left;
-    margin-bottom: 20px;
-    position: relative;
+    font-size: 0.95em;
+    flex-shrink: 0; 
+    min-width: 280px; 
+}
+
+#peru-alerts h4 {
+    color: var(--color-primary);
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
     padding-bottom: 10px;
 }
 
-.alerts-container h3::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 50px;
-    height: 3px;
-    background-color: var(--color-secondary);
-    border-radius: 2px;
-    transform: none; /* Deshacer el transform global de h2 */
+#peru-alerts p {
+    margin-bottom: 10px;
 }
 
-.alerts-list p {
-    font-size: 0.95em;
-    line-height: 1.6;
-    margin-bottom: 15px;
-    color: #444;
-}
-
-.alerts-list p strong {
-    color: var(--color-dark);
-}
-
-/* Estilos para el icono personalizado del marcador (Leaflet) */
+/* Custom icon for Leaflet markers */
 .custom-div-icon {
-    background-color: transparent !important; /* El color se define en el JS */
-    border: none !important;
+    background-color: transparent; /* El color se define en el JS */
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 0 8px rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 0.9em;
+    text-align: center;
 }
 
-
-/* Certificates Section */
+/* Sección de Certificados */
 .certificate-section-content {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 30px;
-    justify-content: center;
-    margin-top: 40px;
+    align-items: center;
 }
 
-#certificate-verification,
-#issue-certificate,
-#issued-certificates-list-container {
+.certificate-section-content .card {
     background-color: white;
     padding: 30px;
     border-radius: 8px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-    flex: 1; /* Permite que crezcan y se encojan */
-    min-width: 300px; /* Ancho mínimo para cada sección */
-}
-
-#certificate-verification {
-    flex-basis: 350px; /* Ancho preferido para la verificación */
-}
-
-#issue-certificate {
-    flex-basis: 400px; /* Ancho preferido para emisión */
-}
-
-#issued-certificates-list-container {
-    flex-basis: 100%; /* Ocupa todo el ancho si se muestra debajo */
-}
-
-
-#certificate-verification h3,
-#issue-certificate h3,
-#issued-certificates-list-container h3 {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 500px;
     text-align: center;
-    color: var(--color-secondary);
-    margin-bottom: 25px;
 }
 
-.form-group {
+.certificate-section-content .card h3 {
+    color: var(--color-primary);
     margin-bottom: 20px;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: var(--color-dark);
-}
-
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group input[type="password"],
-.form-group input[type="date"], /* Estilo para el nuevo input date */
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 12px;
+.certificate-section-content .card input[type="text"],
+.certificate-section-content .card input[type="password"],
+.certificate-section-content .card input[type="date"],
+.certificate-section-content .card select {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 1em;
-    font-family: var(--font-body);
 }
 
-.form-group textarea {
-    resize: vertical;
+.certificate-section-content .card button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1em;
+    margin-top: 10px;
 }
 
-.result-message {
+.certificate-section-content .hidden {
+    display: none;
+}
+
+.certificate-section-content .result-box {
     margin-top: 20px;
     padding: 15px;
     border-radius: 5px;
-    font-weight: bold;
-    text-align: center;
-    display: none; /* Controlado por JS */
+    text-align: left;
+    background-color: var(--color-light);
+    border: 1px solid #ddd;
 }
 
-.result-message.success {
+.certificate-section-content .result-box.success {
+    border-color: #28a745;
     background-color: #d4edda;
     color: #155724;
-    border-color: #c3e6cb;
 }
 
-.result-message.error {
+.certificate-section-content .result-box.error {
+    border-color: #dc3545;
     background-color: #f8d7da;
     color: #721c24;
-    border-color: #f5c6cb;
 }
 
-.certificate-list {
+#issued-certificates-list {
     list-style: none;
     padding: 0;
     margin-top: 20px;
+    text-align: left;
 }
 
-.certificate-list li {
-    background-color: var(--color-light-grey);
-    padding: 15px 20px;
+#issued-certificates-list li {
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    padding: 10px 15px;
     margin-bottom: 10px;
     border-radius: 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.95em;
-    flex-wrap: wrap; /* Permitir que los botones se envuelvan */
-    gap: 10px; /* Espacio entre el texto y los botones */
+    word-break: break-all; /* Para códigos largos */
 }
 
-.certificate-list li span {
-    flex-grow: 1; /* El texto ocupa el espacio disponible */
-    min-width: 180px; /* Ancho mínimo para el texto antes de envolver */
-}
-
-.certificate-list li .btn {
-    padding: 8px 12px;
-    font-size: 0.85em;
-    margin-left: 5px;
-}
-
-.certificate-list li .view-btn {
-    background-color: var(--color-secondary);
-}
-
-.certificate-list li .view-btn:hover {
-    background-color: #0056b3;
-}
-
-.certificate-list li .delete-btn {
-    background-color: #dc3545;
-}
-
-.certificate-list li .delete-btn:hover {
-    background-color: #c82333;
-}
-
-/* Modal de Certificado */
-.modal {
-    display: none; /* Oculto por defecto */
-    position: fixed; /* Posición fija para cubrir toda la pantalla */
-    z-index: 1001; /* Z-index alto para estar sobre todo */
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto; /* Permite scroll si el contenido es grande */
-    background-color: rgba(0,0,0,0.6); /* Fondo semi-transparente */
-    justify-content: center; /* Centrar contenido horizontalmente */
-    align-items: center; /* Centrar contenido verticalmente */
-    padding: 20px;
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: auto; /* Para centrado vertical y horizontal */
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    max-width: 600px; /* Ancho máximo del modal */
-    width: 90%; /* Ancho responsivo */
-    position: relative;
-    text-align: center; /* Centrar texto dentro del modal */
-}
-
-.modal-content h3 {
-    color: var(--color-primary);
-    margin-bottom: 20px;
-}
-
-.modal-content p {
-    font-size: 1.1em;
-    margin-bottom: 10px;
-}
-
-.modal-content p strong {
+#issued-certificates-list li span {
+    font-weight: bold;
     color: var(--color-dark);
 }
 
-.close-button {
-    color: #aaa;
-    position: absolute;
-    top: 15px;
-    right: 25px;
-    font-size: 28px;
-    font-weight: bold;
+#issued-certificates-list li .copy-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
     cursor: pointer;
-    transition: color 0.3s ease;
+    font-size: 0.8em;
+    transition: background-color 0.3s ease;
 }
 
-.close-button:hover,
-.close-button:focus {
-    color: var(--color-dark);
-    text-decoration: none;
-}
-
-.qr-code-container {
-    margin-top: 30px;
-    border-top: 1px solid #eee;
-    padding-top: 20px;
-}
-
-.qr-code-container h4 {
-    color: var(--color-secondary);
-    font-size: 1.3em;
-    margin-bottom: 15px;
-}
-
-#qrcode {
-    display: block; /* Asegura que el div del QR sea un bloque */
-    margin: 20px auto; /* Centra el QR */
-    width: 128px; /* Tamaño fijo para el QR */
-    height: 128px;
-    border: 1px solid #ddd; /* Borde sutil para el QR */
-    padding: 5px;
-    border-radius: 5px;
-    background-color: white;
-}
-
-#qrcode img {
-    width: 100%;
-    height: 100%;
-    display: block; /* Elimina espacio extra debajo de la imagen */
-}
-
-.qr-info {
-    font-size: 0.9em;
-    color: #666;
-    margin-top: 10px;
-}
-
-.modal-content .print-certificate-btn {
-    margin-top: 30px;
-}
-
-
-/* Admin Panel (Login) */
-.admin-login-container {
-    max-width: 500px;
-    background-color: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 5px 25px rgba(0,0,0,0.15);
-    margin: auto; /* Centrar horizontalmente */
-}
-
-#admin-panel h2 {
-    color: var(--color-dark); /* Color del texto del título en la sección admin */
-}
-
-#login-form h3 {
-    color: var(--color-secondary);
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-#login-error {
-    color: #dc3545;
-    margin-top: 15px;
-    font-weight: bold;
-}
-
-#admin-dashboard-content h3 {
-    color: var(--color-primary);
-    text-align: center;
-}
-
-#admin-dashboard-content p {
-    color: var(--color-grey);
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-#admin-dashboard-content .btn {
-    margin-top: 20px;
+#issued-certificates-list li .copy-btn:hover {
+    background-color: #0056b3;
 }
 
 
 /* Contact Section */
-.contact-content {
-    padding-top: 40px; /* Asegura espacio si el contact grid es más alto */
-}
-
 .contact-grid {
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
     justify-content: center;
-    margin-top: 40px;
+    align-items: flex-start;
 }
 
 .contact-form-container,
-.contact-info {
+.contact-info-container {
     background-color: white;
     padding: 30px;
     border-radius: 8px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     flex: 1;
     min-width: 300px;
+    max-width: 500px;
 }
 
 .contact-form-container h3,
-.contact-info h3 {
-    color: var(--color-secondary);
-    margin-bottom: 25px;
-    text-align: left; /* Alineación para los títulos de contacto */
+.contact-info-container h3 {
+    color: var(--color-primary);
+    margin-bottom: 20px;
 }
 
-.contact-info p {
+.contact-form-container form input[type="text"],
+.contact-form-container form input[type="email"],
+.contact-form-container form textarea {
+    width: calc(100% - 22px); /* Ancho total menos padding/border */
+    padding: 10px;
     margin-bottom: 15px;
-    font-size: 1.05em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: var(--font-body);
+    font-size: 1em;
+}
+
+.contact-form-container form textarea {
+    resize: vertical; /* Permite redimensionar verticalmente */
+    min-height: 120px;
+}
+
+.contact-form-container form button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1em;
+}
+
+.contact-info-container p {
+    margin-bottom: 15px;
     display: flex;
     align-items: center;
-    gap: 10px;
 }
 
-.contact-info p i {
+.contact-info-container p i {
     color: var(--color-primary);
+    margin-right: 10px;
     font-size: 1.2em;
 }
 
 .social-links {
-    margin-top: 25px;
+    margin-top: 20px;
 }
 
 .social-links a {
@@ -800,7 +556,6 @@ header nav ul li a:hover::after {
 .social-links a:hover {
     color: var(--color-primary);
 }
-
 
 /* Footer */
 footer {
@@ -817,8 +572,7 @@ footer .footer-links {
 
 footer .footer-links a {
     color: white;
-    text-decoration: none;
-    margin: 0 10px;
+    margin: 0 15px;
     transition: color 0.3s ease;
 }
 
@@ -833,119 +587,91 @@ footer .footer-links a:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Detrás de todo el contenido */
-    pointer-events: none; /* No interfiere con clics */
+    z-index: -2; /* Detrás de todo, incluso del hero-section::before */
+    pointer-events: none; /* Asegura que el canvas no interfiera con clics */
 }
 
+/* Media Queries para Responsividad */
+@media (max-width: 992px) {
+    .hero-content h1 {
+        font-size: 2.8em;
+    }
 
-/* Responsive Design */
+    .hero-content p {
+        font-size: 1.1em;
+    }
+}
+
 @media (max-width: 768px) {
-    h1 {
-        font-size: 2.5em;
+    header {
+        padding: 10px 0;
     }
 
-    h2 {
-        font-size: 2em;
+    header nav {
+        display: none; /* Oculta la navegación principal en móviles, puedes implementar un menú hamburguesa */
     }
 
-    header .container {
-        flex-direction: column;
-        text-align: center;
+    .hero-section {
+        padding: 150px 0 100px;
+        min-height: unset; /* Restablecer para no forzar 100vh en móviles si no se quiere */
     }
 
-    header nav ul {
-        margin-top: 10px;
-        padding-bottom: 10px;
-        flex-wrap: wrap; /* Permitir que los elementos del menú se envuelvan */
-        justify-content: center;
+    .hero-content h1 {
+        font-size: 2.2em;
     }
 
-    header nav ul li {
-        margin: 0 8px; /* Menor margen entre elementos */
-        padding: 5px 0;
+    .hero-content p {
+        font-size: 1em;
     }
 
-    .hero-content {
-        padding: 0 20px; /* Asegura padding en móviles */
+    .section-padding {
+        padding: 40px 0;
     }
 
-    .hero-buttons .btn {
-        margin-bottom: 15px; /* Espacio entre botones apilados */
-        width: 80%; /* Hacer los botones un poco más anchos */
-    }
-
-    .stats-grid {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .stat-item {
-        width: 80%;
-        min-width: unset; /* Eliminar min-width para mayor flexibilidad */
-    }
-
-    .services-grid {
-        grid-template-columns: 1fr; /* Una columna en móviles */
-    }
-
-    .projects-slider img {
-        height: 250px; /* Ajustar altura de la imagen en móviles */
-    }
-
-    .slider-nav {
-        font-size: 1.5em;
-        padding: 8px 12px;
-    }
-
-    /* Responsive para la sección de sismos - MODIFICADO */
+    .stats-grid,
+    .services-grid,
+    .projects-grid,
+    .contact-grid,
     .seismic-content-wrapper {
-        flex-direction: column;
-        align-items: center;
+        grid-template-columns: 1fr; /* Una columna para todos los grids en móvil */
+        flex-direction: column; /* Apila elementos flex en móvil */
+        align-items: center; /* Centra elementos apilados */
+    }
+
+    .seismic-content-wrapper {
+        gap: 20px; /* Ajusta el gap */
     }
 
     #earthquake-map {
-        min-width: unset; /* Elimina el mínimo para que se ajuste */
-        width: 100%;
-        height: 400px; /* Ajusta la altura en móviles */
-    }
-
-    .alerts-container {
-        min-width: unset;
-        width: 100%;
-    }
-
-    .certificate-section-content {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    #certificate-verification,
-    #issue-certificate,
-    #issued-certificates-list-container {
-        min-width: unset;
-        width: 100%;
-    }
-
-    .contact-grid {
-        flex-direction: column;
-        align-items: center;
+        height: 350px; /* Ajusta la altura del mapa para móviles */
     }
 
     .contact-form-container,
-    .contact-info {
-        min-width: unset;
-        width: 100%;
+    .contact-info-container,
+    .certificate-section-content .card {
+        max-width: 100%; /* Ocupa todo el ancho disponible */
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-content h1 {
+        font-size: 1.8em;
     }
 
-    .contact-info h3 {
-        text-align: center; /* Centrar títulos de contacto en móviles */
+    .hero-content p {
+        font-size: 0.9em;
     }
 
-    .contact-info p {
-        justify-content: center; /* Centrar el texto de información de contacto */
+    .stat-item span {
+        font-size: 2.5em;
     }
 
-    .social-links {
-        text-align: center; /* Centrar los iconos sociales */
+    .logo-container img {
+        height: 40px;
+    }
+
+    #earthquake-map {
+        height: 300px; /* Altura aún menor para teléfonos muy pequeños */
     }
 }

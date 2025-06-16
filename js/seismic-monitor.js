@@ -2,10 +2,10 @@
 
 let earthquakeMap = null; // Variable global para almacenar la instancia del mapa
 let initAttempts = 0;
-const MAX_INIT_ATTEMPTS = 10;
-const INIT_RETRY_DELAY = 200; // ms
+const MAX_INIT_ATTEMPTS = 15; // Aumentar un poco los intentos
+const INIT_RETRY_DELAY = 300; // ms, un poco más de retraso entre reintentos
 
-// Función para inicializar el mapa
+// Función para inicializar el mapa Leaflet
 function initMap() {
     // Si el mapa ya existe y es una instancia válida de L.Map, lo eliminamos.
     if (earthquakeMap && earthquakeMap instanceof L.Map) {
@@ -14,18 +14,17 @@ function initMap() {
         earthquakeMap = null; // Resetear a null para asegurar una nueva inicialización
     }
     
-    // Asegurarse de que el contenedor del mapa existe en el DOM
     const mapElement = document.getElementById('earthquake-map');
     if (!mapElement) {
         console.error("ERROR CRÍTICO: Elemento '#earthquake-map' no encontrado en el DOM. No se puede inicializar el mapa.");
         const seismicInfoSection = document.getElementById('seismic-info');
         if (seismicInfoSection) {
-            seismicInfoSection.innerHTML = '<div class="map-error-message">Error al cargar el mapa sísmico. El contenedor del mapa no fue encontrado.</div>';
+            seismicInfoSection.innerHTML = '<div class="map-error-message">Error al cargar el mapa sísmico: Contenedor no encontrado.</div>';
         }
-        return false; // Indicar que la inicialización falló
+        return false;
     }
 
-    // Verificar si el elemento es visible y tiene dimensiones
+    // Verificar si el elemento tiene dimensiones y es visible antes de inicializar Leaflet
     const computedStyle = window.getComputedStyle(mapElement);
     const display = computedStyle.getPropertyValue('display');
     const visibility = computedStyle.getPropertyValue('visibility');
@@ -34,24 +33,21 @@ function initMap() {
 
     if (display === 'none' || visibility === 'hidden' || width === 0 || height === 0) {
         console.warn("Advertencia: El elemento '#earthquake-map' está presente pero no es visible o tiene dimensiones cero. Display:", display, "Visibility:", visibility, "Width:", width, "Height:", height);
-        // No intentar inicializar si no es visible, ya que Leaflet puede fallar o mostrarse mal
-        return false; 
+        return false; // Fallar la inicialización si no es visible
     }
 
-    // Inicializar el mapa
     try {
-        earthquakeMap = L.map('earthquake-map').setView([-9.19, -75.015], 3); // Latitud, Longitud, Zoom
+        earthquakeMap = L.map('earthquake-map').setView([-9.19, -75.015], 3); // Latitud, Longitud, Zoom inicial
         console.log("Mapa Leaflet inicializado correctamente.");
 
-        // Proveedor de tiles: CartoDB Voyager. Este es el único que debería cargarse.
+        // Proveedor de tiles: CartoDB Voyager (NO OpenStreetMap para evitar 404s si hubo conflictos)
         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
             subdomains: 'abcd', 
             maxZoom: 19
         }).addTo(earthquakeMap);
         console.log("Tiles de CartoDB añadidos al mapa.");
-        return true; // Indicar que la inicialización fue exitosa
-
+        return true; // Inicialización exitosa
     } catch (e) {
         console.error("ERROR CRÍTICO: Fallo al crear la instancia de L.map:", e);
         const seismicInfoSection = document.getElementById('seismic-info');
@@ -59,28 +55,30 @@ function initMap() {
             seismicInfoSection.innerHTML = `<div class="map-error-message">Error grave al inicializar el mapa sísmico. Detalles: ${e.message}</div>`;
         }
         earthquakeMap = null; 
-        return false; // Indicar que la inicialización falló
+        return false; // Inicialización fallida
     }
 }
 
-// Función para verificar la disponibilidad del elemento del mapa y reintentar la inicialización
+// Función para verificar la disponibilidad y dimensiones del elemento del mapa y reintentar la inicialización
 function checkMapElementAndInit() {
     const mapElement = document.getElementById('earthquake-map');
     if (mapElement && mapElement.offsetWidth > 0 && mapElement.offsetHeight > 0) {
         console.log("Elemento '#earthquake-map' encontrado y visible. Intentando inicializar el mapa.");
-        if (initMap()) { // Intentar inicializar y verificar si fue exitoso
-            loadRealTimeSeismicData(); // Cargar datos solo si el mapa se inicializó
+        if (initMap()) { 
+            loadRealTimeSeismicData(); // Cargar datos solo si el mapa se inicializó correctamente
+        } else {
+            console.error("La inicialización de initMap() falló a pesar de que el elemento estaba presente y visible. Esto es inesperado.");
         }
     } else {
         initAttempts++;
         if (initAttempts < MAX_INIT_ATTEMPTS) {
-            console.warn(`Elemento '#earthquake-map' no listo o visible. Reintento ${initAttempts}/${MAX_INIT_ATTEMPTS} en ${INIT_RETRY_DELAY}ms.`);
+            console.warn(`Elemento '#earthquake-map' no listo o visible (reintento ${initAttempts}/${MAX_INIT_ATTEMPTS}). Display: ${mapElement ? window.getComputedStyle(mapElement).display : 'N/A'}, Width: ${mapElement ? mapElement.offsetWidth : 'N/A'}, Height: ${mapElement ? mapElement.offsetHeight : 'N/A'}. Reintentando en ${INIT_RETRY_DELAY}ms.`);
             setTimeout(checkMapElementAndInit, INIT_RETRY_DELAY);
         } else {
-            console.error("Máximo de reintentos alcanzado. No se pudo inicializar el mapa sísmico.");
+            console.error("Máximo de reintentos alcanzado. No se pudo inicializar el mapa sísmico porque el contenedor no adquirió las dimensiones adecuadas.");
             const seismicInfoSection = document.getElementById('seismic-info');
             if (seismicInfoSection) {
-                seismicInfoSection.innerHTML = '<div class="map-error-message">El mapa sísmico no pudo cargarse después de varios intentos. Verifique su conexión y la configuración del sitio.</div>';
+                seismicInfoSection.innerHTML = '<div class="map-error-message">El mapa sísmico no pudo cargarse. El contenedor del mapa no es visible o no tiene dimensiones.</div>';
             }
         }
     }
@@ -94,18 +92,14 @@ async function fetchEarthquakes(url, isPeru = false) {
         return;
     }
     
-    // Eliminar cualquier mensaje de error/no data previo dentro del contenedor del mapa
     const prevMessage = mapContainer.querySelector('.map-error-message');
     if (prevMessage) prevMessage.remove();
 
-    // Verificación final antes de usar earthquakeMap
     if (!earthquakeMap || !(earthquakeMap instanceof L.Map)) {
-        console.warn("El mapa Leaflet no está disponible para cargar sismos en fetchEarthquakes. Es posible que initMap no haya terminado.");
-        // No intentamos initMap() aquí, confiamos en checkMapElementAndInit para la inicialización.
-        // Si llegamos aquí y el mapa no está listo, algo más fundamental está fallando.
+        console.warn("El mapa Leaflet no está disponible para cargar sismos. Se asume que checkMapElementAndInit lo manejará.");
         const errorMessage = document.createElement('p');
         errorMessage.className = 'map-error-message';
-        errorMessage.textContent = 'El mapa no se pudo inicializar completamente. Los sismos no se mostrarán.';
+        errorMessage.textContent = 'El mapa no se inicializó completamente. Los sismos no se mostrarán.';
         mapContainer.appendChild(errorMessage);
         return; 
     }
@@ -118,7 +112,6 @@ async function fetchEarthquakes(url, isPeru = false) {
         const data = await response.json();
         console.log("Datos de sismos recibidos (fetch exitoso):", data); 
 
-        // Limpiar marcadores anteriores del mapa
         earthquakeMap.eachLayer(function(layer) {
             if (layer instanceof L.Marker) {
                 earthquakeMap.removeLayer(layer);
@@ -212,14 +205,14 @@ async function fetchEarthquakes(url, isPeru = false) {
     }
 }
 
-// Función para cargar todos los datos en tiempo real
+// Función para cargar todos los datos en tiempo real (alertas y sismos)
 function loadRealTimeSeismicData() {
-    console.log("Iniciando carga de datos sísmicos en tiempo real...");
+    console.log("Iniciando carga de datos sísmicos y alertas en tiempo real...");
     // Fuente de datos del USGS (últimos sismos de magnitud 2.5+ en el día)
     const globalUrl = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson';
     fetchEarthquakes(globalUrl, false); 
 
-    // Alertas de Emergencia Perú (Manual por ahora)
+    // Alertas de Emergencia Perú (Datos estáticos por ahora)
     const peruAlertsDiv = document.getElementById('peru-alerts');
     const alerts = [
         "**Alerta:** Simulacro Nacional de Sismo el 28 de junio de 2025. ¡Participa!",
@@ -244,7 +237,7 @@ function loadRealTimeSeismicData() {
 
 // Llamar a la función para verificar el elemento del mapa y luego iniciar todo
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("DOMContentLoaded disparado. Iniciando chequeo del elemento del mapa...");
+    console.log("DOMContentLoaded disparado. Iniciando chequeo del elemento del mapa para inicialización...");
     checkMapElementAndInit();
 });
 
