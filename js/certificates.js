@@ -11,7 +11,7 @@ let loggedIn = false;
 const adminLoginSection = document.getElementById('admin-login');
 const adminUsernameInput = document.getElementById('admin-username');
 const adminPasswordInput = document.getElementById('admin-password');
-const adminLoginBtn = document.getElementById('admin-login-btn');
+const adminLoginBtn = document.getElementById('adminLoginForm') ? document.getElementById('adminLoginForm').querySelector('button[type="submit"]') : null;
 const loginMessage = document.getElementById('login-message');
 
 const adminPanel = document.getElementById('admin-panel');
@@ -24,11 +24,17 @@ const issueCertificateBtn = document.getElementById('issue-certificate-btn');
 const issuedCertificatesList = document.getElementById('issued-certificates-list');
 
 const verifyCodeInput = document.getElementById('verify-code-input');
-const verifyCertificateBtn = document.getElementById('verify-certificate-btn');
+const verifyCertificateBtn = document.getElementById('verifyCertificateForm') ? document.getElementById('verifyCertificateForm').querySelector('button[type="submit"]') : null;
 const verificationResult = document.getElementById('verification-result');
 
-
-// --- Funciones de Utilidad ---
+// Función para cargar certificados desde localStorage
+function loadCertificates() {
+    const storedCertificates = localStorage.getItem('sosCertificates');
+    if (storedCertificates) {
+        certificates = JSON.parse(storedCertificates);
+    }
+    renderIssuedCertificates();
+}
 
 // Función para guardar certificados en localStorage
 function saveCertificates() {
@@ -37,236 +43,74 @@ function saveCertificates() {
 
 // Función para generar un código único de certificado
 function generateCertificateCode() {
-    return 'CERT-' + Math.random().toString(36).substr(2, 9).toUpperCase();
-}
-
-// Función para mostrar / ocultar secciones
-function updateUI() {
-    if (loggedIn) {
-        adminLoginSection.classList.add('hidden');
-        adminPanel.classList.remove('hidden');
-        renderIssuedCertificates(); // Volver a renderizar al loguearse/desloguearse
-    } else {
-        adminLoginSection.classList.remove('hidden');
-        adminPanel.classList.add('hidden');
-        // Limpiar campos de login
-        adminUsernameInput.value = '';
-        adminPasswordInput.value = '';
-        loginMessage.textContent = '';
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let code = '';
+    for (let i = 0; i < 3; i++) {
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
     }
+    code += '-';
+    for (let i = 0; i < 5; i++) {
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return code;
 }
 
 // Función para renderizar la lista de certificados emitidos
 function renderIssuedCertificates() {
-    issuedCertificatesList.innerHTML = ''; // Limpiar la lista existente
-    if (certificates.length === 0) {
-        const li = document.createElement('li');
-        li.textContent = 'No hay certificados emitidos aún.';
-        issuedCertificatesList.appendChild(li);
-        return;
-    }
-
+    if (!issuedCertificatesList) return; // Asegurarse de que el elemento existe
+    issuedCertificatesList.innerHTML = '';
     certificates.forEach((cert, index) => {
         const li = document.createElement('li');
-        li.classList.add('certificate-item-admin'); // Clase para estilos si es necesario
         li.innerHTML = `
-            <span>${cert.name} - ${cert.course} (${cert.code})</span>
-            <button class="view-cert-btn btn-secondary" data-code="${cert.code}">Ver</button>
-            <button class="delete-cert-btn btn-danger" data-index="${index}">Eliminar</button>
+            <strong>${cert.name}</strong> - ${cert.course} (${cert.date})<br>
+            Código: ${cert.code} 
+            <button class="btn-small print-certificate-btn" data-index="${index}">Imprimir</button>
+            <button class="btn-small btn-delete" data-index="${index}">Eliminar</button>
         `;
         issuedCertificatesList.appendChild(li);
     });
+
+    // Añadir event listeners a los botones de imprimir
+    document.querySelectorAll('.print-certificate-btn').forEach(button => {
+        button.onclick = (event) => printCertificate(event.target.dataset.index);
+    });
+
+    // Añadir event listeners a los botones de eliminar
+    document.querySelectorAll('.btn-delete').forEach(button => {
+        button.onclick = (event) => deleteCertificate(event.target.dataset.index);
+    });
+}
+
+// Función para eliminar un certificado
+function deleteCertificate(index) {
+    if (confirm('¿Estás seguro de que quieres eliminar este certificado?')) {
+        certificates.splice(index, 1);
+        saveCertificates();
+        renderIssuedCertificates();
+    }
 }
 
 
-// --- Event Listeners y Lógica Principal ---
+// Función para imprimir certificado
+function printCertificate(index) {
+    const cert = certificates[index];
+    if (!cert) return;
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Inicializar certificados desde localStorage al cargar el DOM
-    certificates = JSON.parse(localStorage.getItem('sosCertificates')) || [];
-    
-    // Verificar estado de login (si el usuario ya había iniciado sesión previamente)
-    // Esto es importante para mantener la sesión si se recarga la página.
-    loggedIn = localStorage.getItem('sosLoggedIn') === 'true';
-    updateUI(); // Ajustar la UI según el estado de login inicial
-
-    // Manejo de Login
-    if (adminLoginBtn) {
-        adminLoginBtn.addEventListener('click', () => {
-            const username = adminUsernameInput.value;
-            const password = adminPasswordInput.value;
-
-            if (username === ADMIN_USER && password === ADMIN_PASS) {
-                loggedIn = true;
-                localStorage.setItem('sosLoggedIn', 'true'); // Guardar estado en localStorage
-                loginMessage.textContent = 'Inicio de sesión exitoso.';
-                loginMessage.style.color = 'green';
-                updateUI();
-            } else {
-                loggedIn = false;
-                localStorage.setItem('sosLoggedIn', 'false');
-                loginMessage.textContent = 'Usuario o contraseña incorrectos.';
-                loginMessage.style.color = 'red';
-            }
-        });
-    }
-
-    // Manejo de Logout
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
-            loggedIn = false;
-            localStorage.setItem('sosLoggedIn', 'false'); // Limpiar estado de login
-            updateUI();
-            // Opcional: limpiar la lista de certificados para el admin al desloguearse
-            issuedCertificatesList.innerHTML = '';
-        });
-    }
-
-    // Manejo de Emisión de Certificados
-    if (issueCertificateBtn) {
-        issueCertificateBtn.addEventListener('click', () => {
-            if (!loggedIn) {
-                alert('Debes iniciar sesión para emitir certificados.');
-                return;
-            }
-
-            const name = participantNameInput.value.trim();
-            const course = courseTypeSelect.value;
-            const date = issueDateInput.value;
-
-            if (name && course && date) {
-                const code = generateCertificateCode();
-                const newCertificate = {
-                    code: code,
-                    name: name,
-                    course: course,
-                    date: date
-                };
-                certificates.push(newCertificate);
-                saveCertificates();
-                renderIssuedCertificates();
-                alert(`Certificado emitido para ${name} con código: ${code}`);
-
-                // Limpiar formulario
-                participantNameInput.value = '';
-                courseTypeSelect.value = '';
-                issueDateInput.value = '';
-            } else {
-                alert('Por favor, completa todos los campos para emitir el certificado.');
-            }
-        });
-    }
-
-    // Manejo de Verificación de Certificados (Público)
-    if (verifyCertificateBtn) {
-        verifyCertificateBtn.addEventListener('click', () => {
-            const codeToVerify = verifyCodeInput.value.trim().toUpperCase();
-            const foundCert = certificates.find(cert => cert.code === codeToVerify);
-
-            if (foundCert) {
-                verificationResult.innerHTML = `
-                    <p class="verification-success">✔️ Certificado encontrado y VÁLIDO:</p>
-                    <p><strong>Código:</strong> ${foundCert.code}</p>
-                    <p><strong>Participante:</strong> ${foundCert.name}</p>
-                    <p><strong>Curso:</strong> ${foundCert.course}</p>
-                    <p><strong>Fecha de Emisión:</strong> ${foundCert.date}</p>
-                    <div id="qrcode-container" class="qr-code-container">
-                        <div id="qrcode" style="width:128px; height:128px; margin:0 auto;"></div>
-                        <p class="qr-info">Escanea para verificar la autenticidad.</p>
-                    </div>
-                    <button class="print-certificate-btn btn btn-primary">Imprimir Certificado</button>
-                `;
-                verificationResult.style.borderColor = 'green';
-
-                // *** CAMBIO CLAVE AQUÍ: Usar un setTimeout para dar tiempo a que el DOM se renderice y la librería QR sea accesible ***
-                setTimeout(() => {
-                    const qrcodeDiv = document.getElementById("qrcode");
-                    if (qrcodeDiv && typeof QRCode !== 'undefined') {
-                        // Limpiar el QR anterior si existe
-                        qrcodeDiv.innerHTML = ''; // Importante para limpiar el contenido antes de generar uno nuevo
-                        new QRCode(qrcodeDiv, {
-                            text: window.location.origin + window.location.pathname + "#certificates?code=" + foundCert.code,
-                            width: 128,
-                            height: 128
-                        });
-                    } else {
-                        console.warn("QRCode library not loaded or #qrcode element not found, cannot generate QR code.");
-                        const qrcodeContainer = document.getElementById('qrcode-container');
-                        if (qrcodeContainer) {
-                            qrcodeContainer.innerHTML = '<p style="color: red;">Error: No se pudo generar el Código QR. Recarga la página o intenta de nuevo.</p>';
-                        }
-                    }
-                }, 50); // Pequeño retraso de 50ms
-
-
-                // Configurar el botón de impresión
-                const printButton = verificationResult.querySelector('.print-certificate-btn');
-                if (printButton) {
-                    printButton.addEventListener('click', () => {
-                        printCertificate(foundCert);
-                    });
-                }
-
-            } else {
-                verificationResult.innerHTML = `
-                    <p class="verification-error">❌ Certificado NO encontrado o INVÁLIDO.</p>
-                    <p>Por favor, verifica el código e inténtalo de nuevo.</p>
-                `;
-                verificationResult.style.borderColor = 'red';
-            }
-        });
-    }
-
-    // Manejo de eliminación de certificados (Solo para administradores)
-    issuedCertificatesList.addEventListener('click', (event) => {
-        if (event.target.classList.contains('delete-cert-btn')) {
-            if (!loggedIn) {
-                alert('No tienes permisos para eliminar certificados.');
-                return;
-            }
-            const indexToDelete = parseInt(event.target.dataset.index);
-            if (confirm(`¿Estás seguro de que quieres eliminar el certificado de ${certificates[indexToDelete].name}?`)) {
-                certificates.splice(indexToDelete, 1);
-                saveCertificates();
-                renderIssuedCertificates();
-                alert('Certificado eliminado exitosamente.');
-            }
-        }
-    });
-
-    // Manejo de "Ver" certificado desde la lista de administración
-    issuedCertificatesList.addEventListener('click', (event) => {
-        if (event.target.classList.contains('view-cert-btn')) {
-            const codeToView = event.target.dataset.code;
-            // Para "ver" desde el admin, simulamos una verificación pública
-            verifyCodeInput.value = codeToView;
-            verifyCertificateBtn.click(); // Disparamos el clic del botón de verificación
-            window.location.hash = '#certificates'; // Asegurarse de que la sección de certificados esté visible
-        }
-    });
-
-    // Leer el código de certificado de la URL si existe (para compartir el link de verificación)
-    const urlParams = new URLSearchParams(window.location.hash.substring(1));
-    const codeFromUrl = urlParams.get('code');
-    if (codeFromUrl) {
-        verifyCodeInput.value = codeFromUrl;
-        verifyCertificateBtn.click();
-    }
-});
-
-
-// --- Función para Imprimir Certificado ---
-function printCertificate(cert) {
     const printContent = `
+        <h3>Certificado de Participación</h3>
         <p>Se otorga el presente certificado a:</p>
-        <h3>${cert.name}</h3>
-        <p>Por haber participado y aprobado el curso de:</p>
+        <h4>${cert.name}</h4>
+        <p>Por haber completado satisfactoriamente el curso de:</p>
         <h4>${cert.course}</h4>
-        <p>Realizado el ${cert.date}.</p>
-        <p><strong>Código de Verificación:</strong> ${cert.code}</p>
+        <p>Emitido el: ${cert.date}</p>
+        <p>Código de Verificación: <strong>${cert.code}</strong></p>
+        <div class="qr-code-container">
+            <div id="qrcode"></div>
+            <p class="qr-info">Escanea para verificar la autenticidad.</p>
+        </div>
     `;
 
-    const printWindow = window.open('', '_blank', 'height=600,width=800');
+    const printWindow = window.open('', '_blank');
     printWindow.document.write('<html><head><title>Certificado SOS ALERTA PERÚ</title>');
     printWindow.document.write(`
         <style>
@@ -285,11 +129,136 @@ function printCertificate(cert) {
     printWindow.document.write('</head><body>');
     printWindow.document.write('<div style="border: 2px solid #FF4500; padding: 40px; border-radius: 15px; max-width: 700px; margin: auto;">');
     printWindow.document.write('<img src="img/logo.png" style="width: 150px; margin-bottom: 20px; display: block; margin-left: auto; margin-right: auto;">');
-    printWindow.document.write('<h2>Certificado de Participación</h2>');
     printWindow.document.write(printContent);
     printWindow.document.write('<p style="margin-top: 30px; font-style: italic; text-align: center;">Certificado emitido por SOS ALERTA PERÚ.</p>');
     printWindow.document.write('</div>');
     printWindow.document.write('</body></html>');
     printWindow.document.close();
-    printWindow.print();
+
+    // Importante: El QR debe generarse DESPUÉS de que la ventana esté abierta y el DOM del popup disponible
+    printWindow.onload = () => {
+        if (typeof QRCode !== 'undefined') {
+            new QRCode(printWindow.document.getElementById("qrcode"), {
+                text: cert.code, // El texto del QR es el código del certificado
+                width: 128,
+                height: 128,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        } else {
+            console.error("QRCode.js no está definido. No se puede generar el QR.");
+        }
+        printWindow.print();
+    };
 }
+
+
+// Función para manejar el estado de login y visibilidad
+function checkLoginStatus() {
+    if (loggedIn) {
+        if (adminLoginSection) adminLoginSection.classList.add('hidden');
+        if (adminPanel) adminPanel.classList.remove('hidden');
+    } else {
+        if (adminLoginSection) adminLoginSection.classList.remove('hidden');
+        if (adminPanel) adminPanel.classList.add('hidden');
+    }
+}
+
+// Event Listeners
+document.addEventListener('DOMContentLoaded', () => {
+    loadCertificates(); // Cargar certificados al inicio
+
+    // Manejo del formulario de login
+    if (document.getElementById('adminLoginForm')) {
+        document.getElementById('adminLoginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = adminUsernameInput.value;
+            const password = adminPasswordInput.value;
+
+            if (username === ADMIN_USER && password === ADMIN_PASS) {
+                loggedIn = true;
+                loginMessage.textContent = ''; // Limpiar mensaje de error
+                checkLoginStatus();
+            } else {
+                loginMessage.textContent = 'Usuario o contraseña incorrectos.';
+                loggedIn = false;
+                checkLoginStatus();
+            }
+        });
+    }
+
+    // Manejo del botón de logout
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            loggedIn = false;
+            checkLoginStatus();
+            adminUsernameInput.value = '';
+            adminPasswordInput.value = '';
+            loginMessage.textContent = '';
+        });
+    }
+
+    // Manejo del formulario de emisión de certificados
+    if (document.getElementById('issueCertificateForm')) {
+        document.getElementById('issueCertificateForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = participantNameInput.value.trim();
+            const course = courseTypeSelect.value;
+            const date = issueDateInput.value;
+
+            if (name && course && date) {
+                const newCertificate = {
+                    id: certificates.length + 1,
+                    name: name,
+                    course: course,
+                    date: date,
+                    code: generateCertificateCode()
+                };
+                certificates.push(newCertificate);
+                saveCertificates();
+                renderIssuedCertificates();
+                e.target.reset(); // Limpiar el formulario
+                alert('Certificado emitido con éxito. Código: ' + newCertificate.code);
+            } else {
+                alert('Por favor, complete todos los campos para emitir el certificado.');
+            }
+        });
+    }
+
+    // Manejo del formulario de verificación de certificados
+    if (document.getElementById('verifyCertificateForm')) {
+        document.getElementById('verifyCertificateForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const codeToVerify = verifyCodeInput.value.trim().toUpperCase();
+            const foundCertificate = certificates.find(cert => cert.code === codeToVerify);
+
+            if (verificationResult) {
+                if (foundCertificate) {
+                    verificationResult.innerHTML = `
+                        <p class="success-message"><strong>Certificado Válido:</strong></p>
+                        <p><strong>Participante:</strong> ${foundCertificate.name}</p>
+                        <p><strong>Curso:</strong> ${foundCertificate.course}</p>
+                        <p><strong>Fecha de Emisión:</strong> ${foundCertificate.date}</p>
+                    `;
+                    verificationResult.style.color = 'green';
+                } else {
+                    verificationResult.innerHTML = '<p class="error-message">Certificado no encontrado o código incorrecto.</p>';
+                    verificationResult.style.color = 'red';
+                }
+            }
+        });
+    }
+
+    // Llamar a checkLoginStatus al cargar para establecer la visibilidad inicial
+    checkLoginStatus();
+});
+
+// Asegurarse de que el panel de administración se muestre/oculte correctamente cuando se navega a su sección
+// Esto es importante si el usuario ya está logueado y recarga la página o navega a otra sección y vuelve.
+document.querySelector('a[href="#admin-panel"]').addEventListener('click', () => {
+    // Pequeño retardo para asegurar que el DOM se asiente si hay un scroll suave
+    setTimeout(() => {
+        checkLoginStatus();
+    }, 100); 
+});

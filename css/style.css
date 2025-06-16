@@ -38,7 +38,17 @@ a {
 }
 
 a:hover {
-    color: var(--color-secondary);
+    text-decoration: underline;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.section-padding {
+    padding: 80px 0;
 }
 
 .btn {
@@ -48,55 +58,71 @@ a:hover {
     font-weight: bold;
     text-align: center;
     transition: background-color 0.3s ease, color 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
 }
 
 .btn-primary {
     background-color: var(--color-primary);
     color: white;
-    border: 1px solid var(--color-primary);
 }
 
 .btn-primary:hover {
-    background-color: #e63900; /* Un tono más oscuro */
-    border-color: #e63900;
+    background-color: #e03a00; /* Un tono más oscuro de naranja */
+    color: white;
+    text-decoration: none;
 }
 
 .btn-secondary {
-    background-color: transparent;
-    color: var(--color-primary);
-    border: 2px solid var(--color-primary);
+    background-color: var(--color-secondary);
+    color: white;
 }
 
 .btn-secondary:hover {
-    background-color: var(--color-primary);
+    background-color: #0056b3; /* Un tono más oscuro de azul */
+    color: white;
+    text-decoration: none;
+}
+
+.btn-small {
+    padding: 5px 10px;
+    font-size: 0.8em;
+    border-radius: 3px;
+    margin-left: 10px;
+}
+
+.btn-delete {
+    background-color: #dc3545; /* Rojo para eliminar */
     color: white;
 }
 
-.btn-whatsapp {
-    background-color: #25D366; /* Color de WhatsApp */
-    color: white;
-    border: 1px solid #25D366;
-    margin-top: 15px;
+.btn-delete:hover {
+    background-color: #c82333;
 }
 
-.btn-whatsapp:hover {
-    background-color: #1DA851;
-    border-color: #1DA851;
+.hidden {
+    display: none !important;
 }
 
-.section-padding {
-    padding: 80px 0;
+.error-message {
+    color: red;
+    margin-top: 10px;
+    font-size: 0.9em;
 }
 
-.section-light-grey {
-    background-color: var(--color-light);
+.success-message {
+    color: green;
+    margin-top: 10px;
+    font-size: 0.9em;
 }
 
 /* Header */
 header {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: white;
+    color: var(--color-dark);
     padding: 15px 0;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     position: fixed;
     width: 100%;
     top: 0;
@@ -112,110 +138,156 @@ header .container {
 
 .logo-container img {
     height: 50px; /* Tamaño del logo */
-    vertical-align: middle;
 }
 
-header nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+nav .nav-links {
     display: flex;
+    gap: 30px;
 }
 
-header nav ul li {
-    margin-left: 30px;
-}
-
-header nav ul li a {
+nav .nav-links a {
     color: var(--color-dark);
     font-weight: 600;
-    font-size: 1.1em;
     transition: color 0.3s ease;
 }
 
-header nav ul li a:hover {
+nav .nav-links a:hover {
     color: var(--color-primary);
+    text-decoration: none;
+}
+
+.burger-menu {
+    display: none; /* Oculto por defecto en desktop */
+    font-size: 1.8em;
+    cursor: pointer;
+    color: var(--color-dark);
 }
 
 /* Hero Section */
 .hero-section {
-    background: url('../img/hero-bg.jpg') no-repeat center center/cover;
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../img/hero-bg.jpg') no-repeat center center/cover;
     color: white;
     text-align: center;
-    padding: 200px 0 150px; /* Ajusta el padding para centrar contenido */
+    padding: 200px 0;
+    min-height: 100vh; /* Ajusta la altura a la altura de la ventana */
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh; /* Asegura que ocupe al menos toda la altura de la ventana */
-    position: relative;
-    z-index: 1; /* Para que el canvas quede detrás */
+    position: relative; /* Necesario para el efecto de agua */
+    overflow: hidden; /* Asegura que las partículas no salgan del hero */
 }
 
-.hero-section::before {
-    content: '';
+#waterEffectCanvas {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Overlay oscuro */
-    z-index: -1;
+    z-index: 1; /* Detrás del contenido del hero */
 }
 
 .hero-content {
+    position: relative; /* Asegura que el contenido esté encima del canvas */
+    z-index: 2;
     max-width: 800px;
-    margin-top: 50px; /* Deja espacio para el header fijo */
+    margin: 0 auto;
 }
 
 .hero-content h1 {
     font-size: 3.5em;
     margin-bottom: 20px;
+    line-height: 1.2;
     color: white;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
 .hero-content p {
     font-size: 1.3em;
     margin-bottom: 40px;
-    color: #eee;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    color: #e0e0e0;
+}
+
+.hero-buttons .btn {
+    margin: 0 10px;
 }
 
 /* About Section */
-.about-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.about-section {
+    background-color: var(--color-light);
 }
 
-.about-content p {
-    max-width: 800px;
-    margin-bottom: 20px;
-    text-align: justify;
+.about-content {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.about-text {
+    flex: 1;
+}
+
+.about-text h2 {
+    color: var(--color-primary);
+    font-size: 2.5em;
+}
+
+.about-text p {
+    font-size: 1.1em;
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+.about-image {
+    flex: 1;
+    text-align: center;
+}
+
+.about-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Stats Section */
+.stats-section {
+    background-color: white;
+    text-align: center;
+}
+
+.stats-section h2 {
+    color: var(--color-dark);
+    margin-bottom: 50px;
+    font-size: 2.5em;
 }
 
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 30px;
-    margin-top: 40px;
-    width: 100%;
-    max-width: 900px;
 }
 
 .stat-item {
-    background-color: white;
+    background-color: var(--color-light);
     padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
 }
 
-.stat-item span {
-    font-family: var(--font-heading);
+.stat-item:hover {
+    transform: translateY(-10px);
+}
+
+.stat-item i {
     font-size: 3em;
-    font-weight: bold;
     color: var(--color-primary);
+    margin-bottom: 15px;
+}
+
+.stat-item .counter {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: var(--color-dark);
     display: block;
     margin-bottom: 10px;
 }
@@ -227,18 +299,28 @@ header nav ul li a:hover {
 }
 
 /* Services Section */
+.services-section {
+    background-color: var(--color-light);
+    text-align: center;
+}
+
+.services-section h2 {
+    color: var(--color-primary);
+    margin-bottom: 50px;
+    font-size: 2.5em;
+}
+
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
 }
 
 .service-item {
     background-color: white;
     padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease;
 }
 
@@ -253,309 +335,359 @@ header nav ul li a:hover {
 }
 
 .service-item h3 {
-    margin-bottom: 15px;
     color: var(--color-dark);
+    margin-bottom: 15px;
+    font-size: 1.5em;
 }
 
 .service-item p {
     color: var(--color-tertiary);
+    font-size: 1em;
 }
 
-/* Projects Section */
-.projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-}
-
-.project-item {
+/* Seismic Monitor Section */
+.seismic-monitor-section {
     background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    overflow: hidden;
     text-align: center;
 }
 
-.project-item img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.project-item h3 {
-    padding: 20px 20px 10px;
-    margin: 0;
+.seismic-monitor-section h2 {
     color: var(--color-dark);
-}
-
-.project-item p {
-    padding: 0 20px 20px;
-    color: var(--color-tertiary);
-    margin: 0;
-}
-
-.project-item .btn-secondary {
     margin-bottom: 20px;
+    font-size: 2.5em;
 }
 
-/* Sección de Información Sísmica */
-#seismic-info {
-    background-color: #f8f8f8; 
-    padding: 60px 0;
-    text-align: center;
-}
-
-#seismic-info h2 {
+.seismic-monitor-section .section-description {
+    font-size: 1.1em;
+    color: var(--color-tertiary);
     margin-bottom: 40px;
-    color: var(--color-dark);
 }
 
 .seismic-content-wrapper {
-    display: flex; 
-    flex-wrap: wrap; 
-    gap: 30px; 
-    justify-content: center;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* Mapa a la izquierda, info a la derecha */
+    gap: 30px;
+    text-align: left; /* Restablecer la alineación de texto para el contenido */
 }
 
-/* Estilos para el mapa de sismos */
+.seismic-map-container {
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    overflow: hidden; /* Asegura que el mapa respete el border-radius */
+}
+
 #earthquake-map {
-    /* *** ESTO ES CRÍTICO: Define el alto y el ancho del mapa *** */
-    width: 100%; 
-    height: 500px; /* ALTURA FIJA REQUERIDA POR LEAFLET */
-    
-    background-color: #e0e0e0; /* Color temporal de carga */
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    flex-grow: 1; 
-    min-width: 300px; /* Asegura un ancho mínimo en pantallas pequeñas */
-    /* Asegúrate de que no haya display:none o visibility:hidden aquí */
-    /* Es buena práctica agregar un overflow: hidden; */
-    overflow: hidden; 
+    height: 500px;
+    width: 100%;
 }
 
-/* Estilos para la sección de alertas */
-#peru-alerts {
-    background-color: #fff;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    max-width: 350px; 
-    text-align: left;
-    font-size: 0.95em;
-    flex-shrink: 0; 
-    min-width: 280px; 
-}
-
-#peru-alerts h4 {
-    color: var(--color-primary);
-    margin-bottom: 15px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-}
-
-#peru-alerts p {
-    margin-bottom: 10px;
-}
-
-/* Custom icon for Leaflet markers */
-.custom-div-icon {
-    background-color: transparent; /* El color se define en el JS */
-    border-radius: 50%;
-    border: 2px solid white;
-    box-shadow: 0 0 8px rgba(0,0,0,0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
+.map-overlay {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 8px 12px;
+    border-radius: 5px;
     font-size: 0.9em;
+    color: var(--color-dark);
+    z-index: 500; /* Asegura que esté sobre el mapa */
+}
+
+.map-error-message {
+    padding: 20px;
+    background-color: #ffe0e0;
+    color: #cc0000;
+    border: 1px solid #ffb3b3;
+    border-radius: 5px;
+    margin-top: 20px;
     text-align: center;
 }
 
-/* Sección de Certificados */
-.certificate-section-content {
+.seismic-info-container {
     display: flex;
     flex-direction: column;
+    gap: 20px;
+}
+
+.seismic-info-container > div {
+    background-color: var(--color-light);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.seismic-info-container h4 {
+    color: var(--color-primary);
+    margin-bottom: 15px;
+    font-size: 1.3em;
+}
+
+.seismic-info-container p {
+    font-size: 0.95em;
+    color: var(--color-dark);
+    margin-bottom: 8px;
+}
+
+.alerts-box {
+    background-color: #fff3e0; /* Fondo más suave para alertas */
+    border-left: 5px solid var(--color-primary);
+    padding: 20px;
+}
+
+.alerts-box p {
+    margin-bottom: 10px;
+}
+.alerts-box p:last-child {
+    margin-bottom: 0;
+}
+
+.global-summary-box {
+    background-color: #e0f7fa; /* Fondo suave para resumen global */
+    border-left: 5px solid var(--color-secondary);
+    padding: 20px;
+}
+
+/* Certificate Section */
+.certificate-section {
+    background-color: var(--color-light);
+    text-align: center;
+}
+
+.certificate-section h2 {
+    color: var(--color-primary);
+    margin-bottom: 20px;
+    font-size: 2.5em;
+}
+
+.certificate-section .section-description {
+    font-size: 1.1em;
+    color: var(--color-tertiary);
+    margin-bottom: 40px;
+}
+
+.certificate-section-content {
+    display: flex;
+    flex-wrap: wrap; /* Permite que las tarjetas se envuelvan en pantallas pequeñas */
+    justify-content: center;
     gap: 30px;
-    align-items: center;
 }
 
 .certificate-section-content .card {
     background-color: white;
     padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     width: 100%;
-    max-width: 500px;
-    text-align: center;
+    max-width: 500px; /* Ancho máximo para las tarjetas */
+    text-align: left;
 }
 
 .certificate-section-content .card h3 {
-    color: var(--color-primary);
+    color: var(--color-dark);
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    text-align: center;
+}
+
+.certificate-form .form-group {
     margin-bottom: 20px;
 }
 
-.certificate-section-content .card input[type="text"],
-.certificate-section-content .card input[type="password"],
-.certificate-section-content .card input[type="date"],
-.certificate-section-content .card select {
-    width: calc(100% - 20px);
+.certificate-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--color-dark);
+}
+
+.certificate-form input[type="text"],
+.certificate-form input[type="date"],
+.certificate-form select {
+    width: calc(100% - 20px); /* Ajusta el padding */
     padding: 10px;
-    margin-bottom: 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 1em;
 }
 
-.certificate-section-content .card button {
+.certificate-form button {
     width: 100%;
     padding: 12px;
     font-size: 1.1em;
-    margin-top: 10px;
 }
 
-.certificate-section-content .hidden {
-    display: none;
-}
-
-.certificate-section-content .result-box {
-    margin-top: 20px;
+.result-box {
+    margin-top: 25px;
     padding: 15px;
     border-radius: 5px;
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+}
+
+.result-box p {
+    margin: 5px 0;
     text-align: left;
-    background-color: var(--color-light);
-    border: 1px solid #ddd;
 }
 
-.certificate-section-content .result-box.success {
-    border-color: #28a745;
-    background-color: #d4edda;
-    color: #155724;
-}
-
-.certificate-section-content .result-box.error {
-    border-color: #dc3545;
-    background-color: #f8d7da;
-    color: #721c24;
+#admin-panel h4 {
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: var(--color-primary);
 }
 
 #issued-certificates-list {
-    list-style: none;
-    padding: 0;
-    margin-top: 20px;
-    text-align: left;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #fff;
 }
 
 #issued-certificates-list li {
-    background-color: #f9f9f9;
-    border: 1px solid #eee;
-    padding: 10px 15px;
+    background-color: var(--color-light);
+    padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    word-break: break-all; /* Para códigos largos */
+    flex-wrap: wrap; /* Permite que los botones se envuelvan */
 }
 
-#issued-certificates-list li span {
-    font-weight: bold;
+#issued-certificates-list li:last-child {
+    margin-bottom: 0;
+}
+
+#issued-certificates-list li strong {
     color: var(--color-dark);
 }
 
-#issued-certificates-list li .copy-btn {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 0.8em;
-    transition: background-color 0.3s ease;
+#issued-certificates-list button {
+    margin-top: 5px; /* Espacio si los botones se envuelven */
 }
 
-#issued-certificates-list li .copy-btn:hover {
-    background-color: #0056b3;
+.logout-btn {
+    margin-top: 30px;
+    width: auto;
+    padding: 10px 20px;
 }
 
 
 /* Contact Section */
+.contact-section {
+    background-color: white;
+}
+
+.contact-section h2 {
+    color: var(--color-dark);
+    margin-bottom: 50px;
+    font-size: 2.5em;
+    text-align: center;
+}
+
 .contact-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    justify-content: center;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
 }
 
 .contact-form-container,
 .contact-info-container {
-    background-color: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    flex: 1;
-    min-width: 300px;
-    max-width: 500px;
+    background-color: var(--color-light);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
 
 .contact-form-container h3,
 .contact-info-container h3 {
     color: var(--color-primary);
+    margin-bottom: 25px;
+    font-size: 1.8em;
+}
+
+.contact-form .form-group {
     margin-bottom: 20px;
 }
 
-.contact-form-container form input[type="text"],
-.contact-form-container form input[type="email"],
-.contact-form-container form textarea {
-    width: calc(100% - 22px); /* Ancho total menos padding/border */
+.contact-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--color-dark);
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+    width: calc(100% - 20px); /* Ajusta el padding */
     padding: 10px;
-    margin-bottom: 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    font-family: var(--font-body);
     font-size: 1em;
 }
 
-.contact-form-container form textarea {
-    resize: vertical; /* Permite redimensionar verticalmente */
-    min-height: 120px;
+.contact-form textarea {
+    resize: vertical;
 }
 
-.contact-form-container form button {
+.contact-form button {
     width: 100%;
     padding: 12px;
     font-size: 1.1em;
 }
 
 .contact-info-container p {
+    font-size: 1.1em;
     margin-bottom: 15px;
     display: flex;
     align-items: center;
+    color: var(--color-dark);
 }
 
 .contact-info-container p i {
     color: var(--color-primary);
     margin-right: 10px;
-    font-size: 1.2em;
+    font-size: 1.3em;
+}
+
+.whatsapp-link {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 20px;
+    color: #25D366; /* Verde WhatsApp */
+    font-weight: bold;
+}
+
+.whatsapp-link i {
+    font-size: 1.5em;
+    margin-right: 8px;
+}
+
+.whatsapp-link:hover {
+    text-decoration: none;
+    color: #1DA851;
 }
 
 .social-links {
-    margin-top: 20px;
+    margin-top: 25px;
+    display: flex;
+    gap: 20px;
 }
 
 .social-links a {
-    color: var(--color-dark);
     font-size: 1.8em;
-    margin-right: 15px;
+    color: var(--color-dark);
     transition: color 0.3s ease;
 }
 
 .social-links a:hover {
     color: var(--color-primary);
+    text-decoration: none;
 }
+
 
 /* Footer */
 footer {
@@ -567,7 +699,7 @@ footer {
 }
 
 footer .footer-links {
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 footer .footer-links a {
@@ -578,38 +710,108 @@ footer .footer-links a {
 
 footer .footer-links a:hover {
     color: var(--color-primary);
+    text-decoration: none;
 }
 
-/* Water Effect Canvas */
-#waterEffectCanvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -2; /* Detrás de todo, incluso del hero-section::before */
-    pointer-events: none; /* Asegura que el canvas no interfiera con clics */
-}
 
-/* Media Queries para Responsividad */
+/* Responsive Design */
 @media (max-width: 992px) {
     .hero-content h1 {
-        font-size: 2.8em;
+        font-size: 3em;
     }
 
     .hero-content p {
-        font-size: 1.1em;
+        font-size: 1.2em;
+    }
+
+    .about-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .about-image {
+        margin-top: 30px;
+    }
+
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .seismic-content-wrapper {
+        grid-template-columns: 1fr; /* Una columna en tablets */
     }
 }
 
 @media (max-width: 768px) {
-    header {
-        padding: 10px 0;
+    header .container {
+        flex-wrap: wrap; /* Permite que los elementos se envuelvan */
+        justify-content: center; /* Centra el logo */
+        gap: 15px; /* Espacio entre logo y menú si se envuelve */
     }
 
-    header nav {
-        display: none; /* Oculta la navegación principal en móviles, puedes implementar un menú hamburguesa */
+    nav {
+        width: 100%; /* Ocupa todo el ancho disponible */
+        order: 3; /* Asegura que la navegación vaya debajo */
+        text-align: center;
     }
+
+    nav .nav-links {
+        flex-direction: column;
+        gap: 15px;
+        display: none; /* Oculto por defecto en móvil */
+        width: 100%;
+        background-color: white;
+        padding: 20px 0;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+        position: absolute;
+        top: 80px; /* Debajo del header */
+        left: 0;
+        z-index: 999;
+    }
+
+    nav .nav-links.nav-active {
+        display: flex; /* Muestra cuando está activo */
+    }
+
+    .burger-menu {
+        display: block; /* Muestra el icono de hamburguesa */
+        position: absolute; /* Posición absoluta para no afectar el flujo */
+        right: 20px; /* A la derecha del header */
+        top: 25px; /* Alineado con el logo */
+    }
+
+    /* Animación de la hamburguesa */
+    .burger-menu.toggle .fa-bars:before {
+        content: "\f00d"; /* Cambia a icono de X */
+    }
+
+    /* Si quieres que el logo se quede a la izquierda y el menú a la derecha en móviles */
+    header .container {
+        justify-content: space-between;
+        flex-wrap: nowrap; /* Desactiva el wrap para esta configuración */
+    }
+    nav {
+        width: auto;
+        order: unset; /* Restablece el orden */
+    }
+    nav .nav-links {
+        position: fixed; /* O fixed para que ocupe toda la pantalla */
+        height: 100%;
+        top: 70px; /* Altura del header */
+        right: 0;
+        width: 70%; /* Ancho del menú desplegable */
+        transform: translateX(100%); /* Oculto fuera de pantalla */
+        transition: transform 0.3s ease-in-out;
+    }
+    nav .nav-links.nav-active {
+        transform: translateX(0%); /* Muestra el menú */
+    }
+    /* Añadir un overlay cuando el menú está abierto */
+    body.nav-open {
+        overflow: hidden; /* Evita el scroll del body cuando el menú está abierto */
+    }
+    /* Este overlay se crearía con JS o un pseudo-elemento si fuera solo CSS */
+
 
     .hero-section {
         padding: 150px 0 100px;
@@ -650,28 +852,16 @@ footer .footer-links a:hover {
     .contact-info-container,
     .certificate-section-content .card {
         max-width: 100%; /* Ocupa todo el ancho disponible */
-        padding: 20px;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero-content h1 {
-        font-size: 1.8em;
     }
 
-    .hero-content p {
-        font-size: 0.9em;
+    #issued-certificates-list li {
+        flex-direction: column;
+        align-items: flex-start;
     }
 
-    .stat-item span {
-        font-size: 2.5em;
-    }
-
-    .logo-container img {
-        height: 40px;
-    }
-
-    #earthquake-map {
-        height: 300px; /* Altura aún menor para teléfonos muy pequeños */
+    #issued-certificates-list li button {
+        margin-left: 0;
+        margin-top: 10px;
+        width: 100%;
     }
 }

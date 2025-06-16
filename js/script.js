@@ -1,6 +1,7 @@
 // --- JavaScript para Contadores Dinámicos ---
 function animateCounter(id, endValue, duration) {
     const obj = document.getElementById(id);
+    if (!obj) return; // Asegúrate de que el elemento existe
     let startTimestamp = null;
     const step = (timestamp) => {
         if (!startTimestamp) startTimestamp = timestamp;
@@ -30,85 +31,143 @@ logoImg.src = 'img/logo.png'; // Asegúrate de que esta ruta sea correcta
 let particles = [];
 const numberOfParticles = 30; // Más partículas para un efecto más denso
 
-// Ajustar tamaño del canvas
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+// Función para obtener un número aleatorio dentro de un rango
+function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
 }
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas(); // Llamar al inicio para establecer el tamaño
 
+// Clase para cada "partícula" o gota de agua
 class Particle {
-    constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 50 + 20; // Tamaño entre 20 y 70
-        this.speedX = Math.random() * 0.5 - 0.25; // Velocidad X entre -0.25 y 0.25
-        this.speedY = Math.random() * 0.5 - 0.25; // Velocidad Y entre -0.25 y 0.25
-        this.opacity = Math.random() * 0.4 + 0.1; // Opacidad entre 0.1 a 0.5 (sutil)
-        this.rotation = Math.random() * Math.PI * 2; // Rotación inicial
-        this.rotationSpeed = Math.random() * 0.005 - 0.0025; // Velocidad de rotación
-    }
-
-    update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        this.rotation += this.rotationSpeed;
-
-        // Borde envolvente
-        if (this.x < -this.size) this.x = canvas.width + this.size;
-        if (this.y < -this.size) this.y = canvas.height + this.size;
-        if (this.x > canvas.width + this.size) this.x = -this.size;
-        if (this.y > canvas.height + this.size) this.y = -this.size;
+    constructor(x, y, radius, color, velocity) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.color = color;
+        this.velocity = velocity;
+        this.alpha = 1; // Transparencia
     }
 
     draw() {
         ctx.save();
-        ctx.globalAlpha = this.opacity;
-        ctx.translate(this.x + this.size / 2, this.y + this.size / 2);
-        ctx.rotate(this.rotation);
-        ctx.drawImage(logoImg, -this.size / 2, -this.size / 2, this.size, this.size);
+        ctx.globalAlpha = this.alpha;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+        ctx.fillStyle = this.color;
+        ctx.fill();
         ctx.restore();
     }
-}
 
-function initParticles() {
-    particles = []; // Limpiar partículas existentes al re-inicializar
-    for (let i = 0; i < numberOfParticles; i++) {
-        particles.push(new Particle());
+    update() {
+        this.x += this.velocity.x;
+        this.y += this.velocity.y;
+        this.alpha -= 0.008; // Desvanecer con el tiempo
+        this.radius *= 0.98; // Encoger con el tiempo
     }
 }
 
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpia el canvas en cada frame
-    particles.forEach(particle => {
+// Función para inicializar las partículas
+function initParticles() {
+    canvas.width = window.innerWidth;
+    canvas.height = document.body.scrollHeight; // Cubre toda la altura del contenido del body
+    particles = []; // Limpiar partículas existentes al redimensionar
+
+    // Ajustar el número de partículas si la pantalla es más pequeña
+    const currentNumberOfParticles = window.innerWidth < 768 ? 15 : numberOfParticles;
+
+    for (let i = 0; i < currentNumberOfParticles; i++) {
+        // Posiciones iniciales aleatorias, pero que el logo no las tape
+        // Asumiendo que el logo está en la parte superior-izquierda o central-superior
+        const x = getRandomArbitrary(0, canvas.width);
+        const y = getRandomArbitrary(200, canvas.height); // Empieza más abajo para no chocar con el header/logo
+
+        const radius = getRandomArbitrary(2, 5);
+        const color = 'rgba(173, 216, 230, 0.7)'; // Azul claro semitransparente
+        const velocity = {
+            x: getRandomArbitrary(-0.5, 0.5),
+            y: getRandomArbitrary(0.5, 1.5) // Caen hacia abajo
+        };
+        particles.push(new Particle(x, y, radius, color, velocity));
+    }
+}
+
+// Animación del efecto de agua
+function animateWaterEffect() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar el canvas
+
+    // Dibujar el logo en el canvas
+    if (logoImg.complete) {
+        const logoWidth = 100; // Ancho deseado del logo en el canvas
+        const logoHeight = logoImg.naturalHeight * (logoWidth / logoImg.naturalWidth);
+        const logoX = 20; // Posición X
+        const logoY = 20; // Posición Y
+
+        ctx.globalAlpha = 0.8; // Semi-transparencia para el logo
+        ctx.drawImage(logoImg, logoX, logoY, logoWidth, logoHeight);
+        ctx.globalAlpha = 1; // Restaurar la opacidad global
+    }
+
+    for (let i = 0; i < particles.length; i++) {
+        const particle = particles[i];
         particle.update();
         particle.draw();
-    });
-    requestAnimationFrame(draw);
+
+        // Si la partícula se desvanece o sale de la pantalla, la reseteamos
+        if (particle.alpha <= 0.05 || particle.radius <= 0.5 || particle.y > canvas.height + particle.radius) {
+            particles.splice(i, 1); // Eliminar la partícula
+            i--; // Ajustar el índice
+            // Añadir una nueva partícula en la parte superior
+            const x = getRandomArbitrary(0, canvas.width);
+            const y = getRandomArbitrary(0, 100); // Vuelve a aparecer en la parte superior
+            const radius = getRandomArbitrary(2, 5);
+            const color = 'rgba(173, 216, 230, 0.7)';
+            const velocity = {
+                x: getRandomArbitrary(-0.5, 0.5),
+                y: getRandomArbitrary(0.5, 1.5)
+            };
+            particles.push(new Particle(x, y, radius, color, velocity));
+        }
+    }
+    requestAnimationFrame(animateWaterEffect);
 }
 
-// Asegurarse de que la imagen se cargue antes de iniciar el efecto
-logoImg.onload = () => {
-    initParticles();
-    draw(); // Inicia el bucle de animación
-};
+// Inicializar y animar el efecto de agua
+window.addEventListener('load', initParticles);
+window.addEventListener('resize', initParticles); // Re-inicializar en resize
+window.addEventListener('load', animateWaterEffect);
 
-// Si la imagen ya está en caché, asegurarse de iniciar
-if (logoImg.complete) {
-    initParticles();
-    draw();
-}
 
-// --- JavaScript para Formulario de Contacto (usando Formspree) ---
-const contactForm = document.getElementById('contactForm');
-const formStatus = document.getElementById('form-status');
+// --- JavaScript para Menú Hamburguesa (Mobile) ---
+document.addEventListener('DOMContentLoaded', () => {
+    const burgerMenu = document.querySelector('.burger-menu');
+    const navLinks = document.querySelector('.nav-links');
 
-if (contactForm) { // Asegura que el formulario exista antes de añadir el event listener
+    if (burgerMenu && navLinks) {
+        burgerMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('nav-active');
+            burgerMenu.classList.toggle('toggle'); // Para animar el icono
+        });
+
+        // Cerrar el menú al hacer clic en un enlace (para UX móvil)
+        document.querySelectorAll('.nav-links li a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (navLinks.classList.contains('nav-active')) {
+                    navLinks.classList.remove('nav-active');
+                    burgerMenu.classList.remove('toggle');
+                }
+            });
+        });
+    }
+});
+
+
+// --- JavaScript para Formulario de Contacto Formspree ---
+const contactForm = document.querySelector('.contact-form');
+if (contactForm) {
     contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        const formStatus = document.getElementById('form-status');
         formStatus.innerHTML = 'Enviando...';
-        formStatus.style.color = 'var(--color-dark)'; // Color por defecto
+        formStatus.style.color = 'blue';
 
         const response = await fetch(contactForm.action, {
             method: contactForm.method,
@@ -119,7 +178,7 @@ if (contactForm) { // Asegura que el formulario exista antes de añadir el event
         });
 
         if (response.ok) {
-            formStatus.innerHTML = '¡Mensaje enviado con éxito!';
+            formStatus.innerHTML = '¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.';
             formStatus.style.color = 'green';
             contactForm.reset();
         } else {
@@ -138,13 +197,13 @@ if (contactForm) { // Asegura que el formulario exista antes de añadir el event
 // --- Código para inicializar la visibilidad del dashboard/login al cargar la página ---
 // Este código se asegura de que solo el formulario de login sea visible al inicio.
 document.addEventListener('DOMContentLoaded', () => {
-    const adminLoginForm = document.getElementById('admin-login-form');
-    const adminDashboard = document.getElementById('admin-dashboard');
+    const adminLoginSection = document.getElementById('admin-login');
+    const adminPanel = document.getElementById('admin-panel');
 
-    if (adminLoginForm && adminDashboard) {
+    if (adminLoginSection && adminPanel) {
         // Inicialmente, mostrar el login y ocultar el dashboard
-        adminLoginForm.classList.remove('hidden');
-        adminDashboard.classList.add('hidden');
+        adminLoginSection.classList.remove('hidden');
+        adminPanel.classList.add('hidden');
     }
     
     // Si certificates.js está cargado, llamamos a su función para verificar el estado de login
@@ -152,6 +211,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof checkLoginStatus === 'function') { // checkLoginStatus está en certificates.js
         checkLoginStatus(); // Esta función controlará la visibilidad según 'loggedIn'
     } else {
-        console.warn("checkLoginStatus function not found. Ensure certificates.js is loaded.");
+        console.warn("checkLoginStatus function not found. Ensure certificates.js is loaded AFTER script.js if it provides initial setup.");
     }
 });

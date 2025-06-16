@@ -14,6 +14,7 @@
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <canvas id="waterEffectCanvas"></canvas>
@@ -24,182 +25,237 @@
                 <img src="img/logo.png" alt="SOS ALERTA PERÚ Logo">
             </a>
             <nav>
-                <ul>
-                    <li><a href="#hero">Inicio</a></li>
+                <ul class="nav-links">
                     <li><a href="#about">Quiénes Somos</a></li>
                     <li><a href="#services">Servicios</a></li>
-                    <li><a href="#projects">Proyectos</a></li>
-                    <li><a href="#seismic-info">Info Sismos</a></li>
-                    <li><a href="#contact">Contacto</a></li>
+                    <li><a href="#seismic-monitor">Monitor Sísmico</a></li>
                     <li><a href="#certificates">Certificados</a></li>
+                    <li><a href="#contact">Contacto</a></li>
+                    <li><a href="#admin-panel">Admin</a></li>
                 </ul>
+                <div class="burger-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
             </nav>
         </div>
     </header>
 
     <main>
-        <section id="hero" class="hero-section">
+        <section class="hero-section">
             <div class="container">
                 <div class="hero-content">
-                    <h1>Ayudamos en Emergencias y Desastres</h1>
-                    <p>Brindamos asistencia crucial en momentos críticos para proteger vidas y comunidades en Perú.</p>
-                    <a href="#about" class="btn btn-primary">Más Información</a>
-                </div>
-            </div>
-        </section>
-
-        <section id="about" class="about-section section-padding section-light-grey">
-            <div class="container">
-                <h2>Quiénes Somos</h2>
-                <div class="about-content">
-                    <p>SOS ALERTA PERÚ es una organización comprometida con la gestión de riesgos y la respuesta a emergencias en todo el territorio peruano. Nuestra misión es salvar vidas, reducir el impacto de los desastres naturales y fortalecer la resiliencia de las comunidades.</p>
-                    <p>Trabajamos incansablemente en la capacitación, prevención y asistencia directa, colaborando con autoridades y la sociedad civil para construir un Perú más seguro y preparado.</p>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <span id="capacitated-counter">0</span>
-                            <p>Personas Capacitadas</p>
-                        </div>
-                        <div class="stat-item">
-                            <span id="at-risk-villages-counter">0</span>
-                            <p>Pueblos en Riesgo</p>
-                        </div>
-                        <div class="stat-item">
-                            <span id="lives-saved-counter">0</span>
-                            <p>Vidas Salvadas</p>
-                        </div>
+                    <h1>SOS ALERTA PERÚ: Preparados para Salvar Vidas.</h1>
+                    <p>Tu plataforma integral de información y recursos para emergencias y desastres en Perú.</p>
+                    <div class="hero-buttons">
+                        <a href="#services" class="btn btn-primary">Nuestros Servicios</a>
+                        <a href="#contact" class="btn btn-secondary">Contáctanos</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="services" class="services-section section-padding">
+        <section id="about" class="section-padding about-section">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text">
+                        <h2>Quiénes Somos</h2>
+                        <p><strong>SOS ALERTA PERÚ</strong> es una iniciativa dedicada a fortalecer la capacidad de respuesta de la población peruana ante emergencias y desastres naturales. A través de la capacitación, información en tiempo real y herramientas útiles, buscamos crear comunidades más resilientes y preparadas.</p>
+                        <p>Nuestra misión es educar y empoderar a los ciudadanos con el conocimiento y las habilidades necesarias para actuar de manera efectiva durante una crisis, minimizando riesgos y salvando vidas. Creemos firmemente en la prevención y la preparación como pilares fundamentales para la seguridad de todos.</p>
+                    </div>
+                    <div class="about-image">
+                        <img src="img/about-us.jpg" alt="Personas ayudando en una emergencia">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="stats" class="section-padding stats-section">
+            <div class="container">
+                <h2>Nuestro Impacto</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <i class="fas fa-users"></i>
+                        <span id="capacitated-counter" class="counter">0</span>
+                        <p>Personas Capacitadas</p>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-house-damage"></i>
+                        <span id="at-risk-villages-counter" class="counter">0</span>
+                        <p>Pueblos en Riesgo Asistidos</p>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-heartbeat"></i>
+                        <span id="lives-saved-counter" class="counter">0</span>
+                        <p>Vidas Salvadas (Estimado)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="section-padding services-section">
             <div class="container">
                 <h2>Nuestros Servicios</h2>
                 <div class="services-grid">
                     <div class="service-item">
                         <i class="fas fa-hands-helping"></i>
-                        <h3>Asistencia en Emergencias</h3>
-                        <p>Respuesta rápida y efectiva ante desastres naturales y otras crisis, brindando ayuda humanitaria y rescate.</p>
-                    </div>
-                    <div class="service-item">
-                        <i class="fas fa-chalkboard-teacher"></i>
-                        <h3>Capacitación y Simulacros</h3>
-                        <p>Programas de formación en primeros auxilios, gestión de riesgos y evacuación, incluyendo simulacros realistas.</p>
+                        <h3>Capacitación en Primeros Auxilios</h3>
+                        <p>Programas de formación esenciales para responder eficazmente en situaciones de emergencia médica.</p>
                     </div>
                     <div class="service-item">
                         <i class="fas fa-shield-alt"></i>
-                        <h3>Prevención de Desastres</h3>
-                        <p>Implementación de estrategias y medidas para reducir la vulnerabilidad de comunidades ante eventos adversos.</p>
+                        <h3>Simulacros y Preparación</h3>
+                        <p>Organización y guía en simulacros de desastres para mejorar la respuesta comunitaria.</p>
                     </div>
                     <div class="service-item">
-                        <i class="fas fa-hand-holding-heart"></i>
-                        <h3>Apoyo Psicosocial</h3>
-                        <p>Soporte emocional y psicológico para personas afectadas por desastres, promoviendo la recuperación post-traumática.</p>
+                        <i class="fas fa-wifi"></i>
+                        <h3>Alertas y Monitoreo en Tiempo Real</h3>
+                        <p>Información actualizada sobre sismos, clima y otras emergencias para toma de decisiones rápida.</p>
+                    </div>
+                    <div class="service-item">
+                        <i class="fas fa-hospital"></i>
+                        <h3>Asistencia Humanitaria</h3>
+                        <p>Coordinación y entrega de ayuda a poblaciones afectadas por desastres.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="projects" class="projects-section section-padding section-light-grey">
+        <section id="seismic-monitor" class="section-padding seismic-monitor-section">
             <div class="container">
-                <h2>Nuestros Proyectos</h2>
-                <div class="projects-grid">
-                    <div class="project-item">
-                        <img src="img/project1.jpg" alt="Proyecto 1">
-                        <h3>Comunidades Resilientes Andinas</h3>
-                        <p>Capacitación en preparación ante sismos en zonas altoandinas, construyendo infraestructuras seguras.</p>
-                        <a href="#" class="btn btn-secondary">Ver Detalles</a>
-                    </div>
-                    <div class="project-item">
-                        <img src="img/project2.jpg" alt="Proyecto 2">
-                        <h3>Respuesta Rápida en la Selva</h3>
-                        <p>Desarrollo de equipos de respuesta rápida para inundaciones y deslizamientos en la Amazonía peruana.</p>
-                        <a href="#" class="btn btn-secondary">Ver Detalles</a>
-                    </div>
-                    <div class="project-item">
-                        <img src="img/project3.jpg" alt="Proyecto 3">
-                        <h3>Educación en Zonas Costeras</h3>
-                        <p>Concientización sobre tsunamis y evacuación en poblaciones costeras, con simulacros periódicos.</p>
-                        <a href="#" class="btn btn-secondary">Ver Detalles</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="seismic-info" class="section-padding">
-            <div class="container">
-                <h2>Información Sísmica y Alertas</h2>
+                <h2>Monitor Sísmico y Alertas</h2>
+                <p class="section-description">Mantente informado sobre la actividad sísmica en Perú y el mundo, junto con alertas de emergencia importantes.</p>
                 <div class="seismic-content-wrapper">
-                    <section id="earthquake-map"></section>
-                    <aside id="peru-alerts"></aside>
-                </div>
-            </div>
-        </section>
-
-        <section id="certificates" class="certificate-section section-padding section-light-grey">
-            <div class="container certificate-section-content">
-                <h2>Verificación de Certificados</h2>
-                <div id="admin-login" class="card">
-                    <h3>Acceso para Administradores</h3>
-                    <input type="text" id="admin-username" placeholder="Usuario">
-                    <input type="password" id="admin-password" placeholder="Contraseña">
-                    <button id="admin-login-btn" class="btn btn-primary">Iniciar Sesión</button>
-                    <p id="login-message" style="color: red; margin-top: 10px;"></p>
-                </div>
-
-                <div id="admin-panel" class="hidden card">
-                    <h3>Panel de Administración</h3>
-                    <button id="logout-btn" class="btn btn-secondary">Cerrar Sesión</button>
-                    <h4>Emitir Nuevo Certificado</h4>
-                    <input type="text" id="participant-name" placeholder="Nombre del Participante" required>
-                    <select id="course-type" required>
-                        <option value="">Selecciona el Curso</option>
-                        <option value="Primeros Auxilios">Primeros Auxilios</option>
-                        <option value="Gestion de Riesgos">Gestión de Riesgos</option>
-                        <option value="Trabajo Altura">Trabajo en Altura</option>
-                        <option value="Prevencion Incendios">Prevención de Incendios</option>
-                        <option value="Evacuacion">Evacuación</option>
-                        <option value="Seguridad Laboral">Seguridad Laboral</option>
-                    </select>
-                    <input type="date" id="issue-date" required>
-                    <button id="issue-certificate-btn" class="btn btn-primary">Emitir Certificado</button>
-
-                    <h4>Certificados Emitidos</h4>
-                    <ul id="issued-certificates-list">
-                        </ul>
-                </div>
-
-                <div id="public-verification" class="card">
-                    <h3>Verificar un Certificado</h3>
-                    <input type="text" id="verify-code-input" placeholder="Ingresa Código de Certificado" required>
-                    <button id="verify-certificate-btn" class="btn btn-primary">Verificar</button>
-                    <div id="verification-result" class="result-box">
+                    <div class="seismic-map-container">
+                        <div id="earthquake-map" style="height: 500px; width: 100%; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);"></div>
+                        <div class="map-overlay">
+                            <p>Datos sísmicos de USGS y alertas del IGP.</p>
                         </div>
+                    </div>
+                    <div class="seismic-info-container">
+                        <div id="latest-earthquake">
+                            <h4>Último Sismo en Perú (IGP):</h4>
+                            <p>Cargando datos...</p>
+                        </div>
+                        <div id="peru-alerts" class="alerts-box">
+                            <h4>Alertas de Emergencia Activas:</h4>
+                            <p>No hay alertas activas en este momento.</p>
+                        </div>
+                        <div id="global-earthquakes-summary" class="global-summary-box">
+                            <h4>Sismos Globales Recientes (USGS, últimas 24h):</h4>
+                            <p>Cargando datos...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="certificates" class="section-padding certificate-section">
+            <div class="container">
+                <h2>Sistema de Certificación</h2>
+                <p class="section-description">Verifica la autenticidad de los certificados emitidos por SOS ALERTA PERÚ o emite nuevos certificados (solo para administradores).</p>
+
+                <div class="certificate-section-content">
+                    <div class="card">
+                        <h3>Verificar Certificado</h3>
+                        <form id="verifyCertificateForm" class="certificate-form">
+                            <div class="form-group">
+                                <label for="verify-code-input">Código de Certificado:</label>
+                                <input type="text" id="verify-code-input" placeholder="Ej: ABC-12345" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Verificar</button>
+                        </form>
+                        <div id="verification-result" class="result-box">
+                            </div>
+                    </div>
+
+                    <div id="admin-panel" class="card hidden">
+                        <h3>Administración de Certificados</h3>
+                        <div id="admin-dashboard-content">
+                            <h4>Emitir Nuevo Certificado</h4>
+                            <form id="issueCertificateForm" class="certificate-form">
+                                <div class="form-group">
+                                    <label for="participant-name">Nombre del Participante:</label>
+                                    <input type="text" id="participant-name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="course-type">Tipo de Curso/Capacitación:</label>
+                                    <select id="course-type" required>
+                                        <option value="">Seleccione un tipo</option>
+                                        <option value="Primeros Auxilios Básicos">Primeros Auxilios Básicos</option>
+                                        <option value="Búsqueda y Rescate Urbano">Búsqueda y Rescate Urbano</option>
+                                        <option value="Gestión de Riesgos de Desastres">Gestión de Riesgos de Desastres</option>
+                                        <option value="Soporte Vital Básico (BLS)">Soporte Vital Básico (BLS)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="issue-date">Fecha de Emisión:</label>
+                                    <input type="date" id="issue-date" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary" id="issue-certificate-btn">Emitir Certificado</button>
+                            </form>
+
+                            <h4>Certificados Emitidos</h4>
+                            <div id="issued-certificates-list-container" class="issued-list-container">
+                                <ul id="issued-certificates-list">
+                                    </ul>
+                            </div>
+                        </div>
+                        <button id="logout-btn" class="btn btn-secondary logout-btn">Cerrar Sesión</button>
+                    </div>
+
+                    <div id="admin-login" class="card">
+                        <h3>Acceso Administrador</h3>
+                        <form id="adminLoginForm" class="certificate-form">
+                            <div class="form-group">
+                                <label for="admin-username">Usuario:</label>
+                                <input type="text" id="admin-username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-password">Contraseña:</label>
+                                <input type="password" id="admin-password" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                            <p id="login-message" class="error-message"></p>
+                        </form>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="contact" class="contact-section section-padding">
+
+        <section id="contact" class="section-padding contact-section">
             <div class="container">
                 <h2>Contáctanos</h2>
                 <div class="contact-grid">
                     <div class="contact-form-container">
                         <h3>Envíanos un Mensaje</h3>
-                        <form id="contactForm" action="https://formspree.io/f/meqyzajz" method="POST">
-                            <input type="text" name="name" placeholder="Tu Nombre" required>
-                            <input type="email" name="_replyto" placeholder="Tu Email" required>
-                            <input type="text" name="subject" placeholder="Asunto" required>
-                            <textarea name="message" placeholder="Tu Mensaje" required></textarea>
+                        <form action="https://formspree.io/f/mpzvqnjz" method="POST" class="contact-form">
+                            <div class="form-group">
+                                <label for="name">Nombre:</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">Asunto:</label>
+                                <input type="text" id="subject" name="subject" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Mensaje:</label>
+                                <textarea id="message" name="message" rows="5" required></textarea>
+                            </div>
                             <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
                             <p id="form-status"></p>
                         </form>
                     </div>
                     <div class="contact-info-container">
-                        <h3>Nuestra Información</h3>
-                        <p><i class="fas fa-map-marker-alt"></i> Av. Arequipa 123, Miraflores, Lima, Perú</p>
-                        <p><i class="fas fa-envelope"></i> info@sosalerta.com</p>
-                        <p><i class="fas fa-phone-alt"></i> +51 950 101 324</p>
-                        <a href="https://wa.me/51950101324" target="_blank" class="btn btn-whatsapp"><i class="fab fa-whatsapp"></i> Envíanos un WhatsApp</a>
+                        <h3>Información de Contacto</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> Av. Arequipa 123, Lima, Perú</p>
+                        <p><i class="fas fa-phone"></i> +51 987 654 321</p>
+                        <p><i class="fas fa-envelope"></i> info@sosalertaperu.org</p>
+                        <a href="https://wa.me/51987654321" target="_blank" class="whatsapp-link"><i class="fab fa-whatsapp"></i> Envíanos un WhatsApp</a>
 
                         <h3>Síguenos</h3>
                         <div class="social-links">
@@ -227,12 +283,13 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nEFh3L_2d2c1F+82T5cQ2Vj5b8b/2s+kP+c02s/2Q="
         crossorigin=""></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRec57azjAMO2cdBycxldbxpnZMfxgmkNye0H6N8tngH6RyOcLTMAtFRTq07Ad+5WgbBOghNQRcibWgrFOg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode.js/1.0.0/qrcode.min.js" 
+        integrity="sha512-CNgIRec57azjAMO2cdQqMhVGksyOKySJUQTnsJefKcufJQMlTgC9qxQqzYRFzSaqJ/AGEkLjY9P2LhC9E+J2Bw==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script src="js/script.js"></script>
     <script src="js/seismic-monitor.js"></script>
     <script src="js/certificates.js"></script>
-
 </body>
 </html>
